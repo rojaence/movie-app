@@ -36,7 +36,8 @@
     border-style: solid;
   }
   &--outlined,
-  &--text {
+  &--text,
+  &--icon {
     &:hover {
       filter: brightness(1.2);
     }
@@ -46,10 +47,6 @@
   }
   &--gradient {
     background-color: transparent;
-    background-image: linear-gradient(
-      to right,
-      var(--info-color) 50%,
-      var(--primary-color)
-    );
+    background-image: var(--primary-gradient);
   }
 }

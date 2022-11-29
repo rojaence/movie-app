@@ -22,6 +22,11 @@ function Button({
     .join(' ')
     .trim();
   const variantClasses = ['text', 'outlined', 'icon'];
+  const variantClassesAlpha = {
+    text: '0.1',
+    outlined: '0.1',
+    icon: '0.25'
+  };
   const buttonStyle = {
     color: variantClasses.includes(variant)
       ? `var(--${color}-color)`
@@ -29,7 +34,7 @@ function Button({
     borderColor: variant === 'outlined' ? `var(--${color}-color)` : 'none',
     backgroundColor: !variantClasses.includes(variant)
       ? `var(--${color}-color)`
-      : `rgba(var(--${color}-color-value), 0.1)`,
+      : `rgba(var(--${color}-color-value), ${variantClassesAlpha[variant]})`,
     ...style
   };
   return (
