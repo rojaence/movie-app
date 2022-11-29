@@ -32,3 +32,9 @@
     outline-color: transparent;
   }
 }
+
+@for $i from 1 through 5 {
+  .elevation-#{$i} {
+    box-shadow: #{$i}px #{$i + 1}px #{$i * 4}px rgba(0, 0, 0, 0.3);
+  }
+}

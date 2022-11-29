@@ -5,10 +5,15 @@
   color: var(--text-color);
   max-width: 400px;
   box-sizing: border-box;
-  height: 35px;
+  height: 38px;
   border: none;
-  padding: 0 1rem;
+  padding: 0 10px;
   transition: background-color 0.2s, filter 0.15s, outline 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-transform: uppercase;
   cursor: pointer;
   border-radius: 0.3rem;
   &:hover {
@@ -19,6 +24,12 @@
   }
   &--rounded {
     border-radius: 1rem;
+  }
+  &--fab,
+  &--icon {
+    border-radius: 50%;
+    height: 38px;
+    width: 38px;
   }
   &--outlined {
     border-width: 1px;
