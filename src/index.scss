@@ -1,3 +1,5 @@
+@import '@/styles/_variables.scss';
+
 :root {
   --main-color: rgb(31, 32, 35);
   --secondary-color: rgb(16, 32, 45);
@@ -23,7 +25,8 @@
     var(--primary-color)
   );
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
+  @extend .app-scrollbar;
 }
 
 @keyframes outlinePop {
@@ -35,11 +38,5 @@
   }
   100% {
     outline-color: transparent;
-  }
-}
-
-@for $i from 1 through 5 {
-  .elevation-#{$i} {
-    box-shadow: 1px 1px #{$i * 5}px rgba(0, 0, 0, 0.3);
   }
 }

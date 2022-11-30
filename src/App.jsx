@@ -4,8 +4,17 @@ import AppHeader from '@/containers/AppHeader';
 import AppFooter from '@/containers/AppFooter';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
+import Card from '@/components/Card';
 
 function App() {
+  const cardData = {
+    title: 'The Expendables 2',
+    image:
+      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4EBO8aIeP2bF1jGpwbuRS4CFMca.jpg'
+  };
+
+  const cardItems = new Array(6).fill(cardData);
+
   return (
     <div className="App">
       <AppHeader />
@@ -43,10 +52,20 @@ function App() {
           <Icon name="close" color="error" />
           <Icon name="linkedin" color="primary" />
           <Icon name="search" color="warning" />
+          <Icon name="star" color="accent" size={40} />
+          <Icon name="chevronLeft" color="text" />
+          <Icon name="chevronRight" color="text" />
         </div>
         <div>
           <h2>Cards</h2>
-          Pendiente...
+          <div
+            style={{ display: 'flex', gap: '20px', overflow: 'auto' }}
+            className="app-scrollbar"
+          >
+            {cardItems.map((item, index) => (
+              <Card data={item} key={index} />
+            ))}
+          </div>
         </div>
       </main>
       <AppFooter />

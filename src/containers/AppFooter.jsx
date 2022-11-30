@@ -11,7 +11,7 @@ function AppFooter() {
         rel="noreferrer"
       >
         <img
-          src="themoviedb.svg"
+          src="./src/assets/themoviedb.svg"
           alt="API Attribution"
           className="api-attribution__image"
         />

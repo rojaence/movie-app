@@ -5,3 +5,15 @@
     animation: outlinePop 1s infinite;
   }
 }
+
+.app-scrollbar {
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+}
+
+@for $i from 1 through 5 {
+  .elevation-#{$i} {
+    box-shadow: 1px 1px #{$i * 5}px rgba(0, 0, 0, 0.3);
+  }
+}
