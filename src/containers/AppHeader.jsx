@@ -7,7 +7,7 @@ function AppHeader() {
     <header className="app-header elevation-1">
       <Button
         variant="icon"
-        startIcon={<Icon name="menu" size={30} />}
+        startIcon={<Icon name="menu" size={28} />}
         style={{
           height: '45px',
           width: '45px',
@@ -21,7 +21,7 @@ function AppHeader() {
       </a>
       <Button
         variant="icon"
-        startIcon={<Icon name="search" size={30} />}
+        startIcon={<Icon name="search" size={25} />}
         style={{
           height: '45px',
           width: '45px'

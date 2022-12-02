@@ -1,0 +1,64 @@
+@import '@/styles/_variables.scss';
+
+.slide-group {
+  padding: 0 1.2rem;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding: 0 0.5rem 0.8rem;
+    scroll-behavior: smooth;
+    @extend .app-scrollbar--alt !optional;
+    &:hover {
+      @extend .app-scrollbar--alt-hover;
+    }
+  }
+  .button-left,
+  .button-right {
+    position: absolute;
+    z-index: 50;
+    top: calc(50% - 38px);
+    &:focus-visible {
+      outline: none;
+    }
+  }
+  .button-left {
+    left: 0;
+  }
+  .button-right {
+    right: 0;
+  }
+  &::before,
+  &::after {
+    position: absolute;
+    width: 25px;
+    height: 100%;
+    z-index: 30;
+    content: '';
+  }
+  &::before {
+    top: 0;
+    left: 10px;
+    background-image: linear-gradient(
+      to right,
+      var(--main-color) 60%,
+      transparent
+    );
+  }
+  &::after {
+    top: 0;
+    right: 10px;
+    background-image: linear-gradient(
+      to left,
+      var(--main-color) 60%,
+      transparent
+    );
+  }
+}

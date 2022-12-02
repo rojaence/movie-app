@@ -35,6 +35,11 @@
     border-width: 1px;
     border-style: solid;
   }
+  &--icon {
+    padding: 0;
+    display: grid;
+    place-items: center;
+  }
   &--outlined,
   &--text,
   &--icon {

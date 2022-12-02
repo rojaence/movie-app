@@ -5,6 +5,7 @@ import AppFooter from '@/containers/AppFooter';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
 import Card from '@/components/Card';
+import SlideGroup from '@/containers/SlideGroup';
 
 function App() {
   const cardData = {
@@ -13,7 +14,11 @@ function App() {
       'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4EBO8aIeP2bF1jGpwbuRS4CFMca.jpg'
   };
 
-  const cardItems = new Array(6).fill(cardData);
+  const cardItems = new Array(10).fill(<Card data={cardData} />);
+
+  const htmlItems = new Array(10).fill(
+    <span>Hola mundo {cardData.title}</span>
+  );
 
   return (
     <div className="App">
@@ -58,14 +63,8 @@ function App() {
         </div>
         <div>
           <h2>Cards</h2>
-          <div
-            style={{ display: 'flex', gap: '20px', overflow: 'auto' }}
-            className="app-scrollbar"
-          >
-            {cardItems.map((item, index) => (
-              <Card data={item} key={index} />
-            ))}
-          </div>
+          <SlideGroup items={cardItems} />
+          <SlideGroup items={htmlItems} />
         </div>
       </main>
       <AppFooter />
