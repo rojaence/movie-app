@@ -1,6 +1,6 @@
 @import '@/styles/_variables.scss';
 .card {
-  width: 150px;
+  width: 200px;
   display: grid;
   justify-content: center;
   grid-template-areas: 'banner' 'title';
@@ -22,8 +22,8 @@
   }
   &__image {
     max-width: 100%;
-    min-width: 150px;
-    height: 100%;
+    width: 200px;
+    height: 350px;
     object-fit: cover;
     border-radius: 0.5rem;
     grid-area: banner;
@@ -32,9 +32,10 @@
     background-color: rgba(255, 255, 255, 0.1);
   }
   @media screen and (min-width: 900px) {
-    width: 200px;
+    width: 300px;
     &__image {
-      min-width: 200px;
+      height: 450px;
+      width: 100%;
     }
   }
 }

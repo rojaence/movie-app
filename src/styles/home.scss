@@ -1,0 +1,19 @@
+.shelf {
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+  }
+  &__title {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  &__more-button {
+    height: 30px;
+  }
+}

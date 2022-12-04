@@ -59,11 +59,12 @@ function SlideGroup({ items }) {
         ref={slideList}
         onScroll={onScrollEvent}
       >
-        {items.map((item, index) => (
-          <li className="slide-group__item" key={index}>
+        {items.map((item) => (
+          <li className="slide-group__item" key={item.id}>
             {item}
           </li>
         ))}
+        {items.length === 0 && 'No data'}
       </ul>
       <Button
         startIcon={<Icon name="chevronRight" size={30} viewBox="-4 -4 50 50" />}
