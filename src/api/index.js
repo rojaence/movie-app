@@ -1,18 +1,31 @@
-const apiKey = import.meta.env.VITE_API_KEY;
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
+import axios from 'axios';
 
-const getTrending = async () => {
-  const request = await fetch(`${apiUrl}/trending/movie/day?api_key=${apiKey}`);
-  const response = await request.json();
-  return response.results;
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {
+    'Content-Type': 'applicatin/json;charset=utf-8'
+  },
+  params: {
+    api_key: import.meta.env.VITE_API_KEY
+  }
+});
+
+const getTrending = async ({
+  mediaType = 'movie',
+  timeWindow = 'day'
+} = {}) => {
+  const { data } = await api(`trending/${mediaType}/${timeWindow}`);
+  return data.results;
 };
 
-const getCategories = async () => {
-  console.log('TODO: GET CATEGORIES');
+const getPopular = async ({ mediaType = 'movie' }) => {
+  const { data } = await api(`${mediaType}/popular`);
+  return data.results;
 };
 
-export { getTrending, getCategories };
+const getCategories = async ({ mediaType = 'movie' }) => {
+  const { data } = await api(`genre/${mediaType}/list`);
+  return data.genres;
+};
 
-/* export default {
-  getTrending
-}; */
+export { getTrending, getCategories, getPopular };

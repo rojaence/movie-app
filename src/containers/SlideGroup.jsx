@@ -61,7 +61,7 @@ function SlideGroup({ items }) {
       >
         {items.map((item) => (
           <li className="slide-group__item" key={item.id}>
-            {item}
+            {item.element}
           </li>
         ))}
         {items.length === 0 && 'No data'}
@@ -83,7 +83,12 @@ SlideGroup.defaultProps = {
 };
 
 SlideGroup.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.element)
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      element: PropTypes.element
+    })
+  )
 };
 
 export default SlideGroup;

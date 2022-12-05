@@ -1,57 +1,91 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@/components/Button';
 import '@/styles/home.scss';
-import { getTrending } from '@/api/index';
-import SlideGroup from '@/containers/SlideGroup';
+import { getTrending, getPopular, getCategories } from '@/api/index';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
+import SlideSection from '@/containers/SlideSection';
 
 function Home() {
-  const [trendingItems, setTrendingItems] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingSeries, setTrendingSeries] = useState([]);
+  const [popularItems, setPopularItems] = useState([]);
+  const [genres, setGenres] = useState([]);
+
   useEffect(() => {
-    const getTrendingItems = async () => {
-      const data = await getTrending();
+    const mapCardItems = (data) => {
+      const mapItems = data.map((item) => ({
+        id: item.id,
+        element: (
+          <Card
+            data={{
+              id: item.id,
+              title: item.title || item.name,
+              image: `https://image.tmdb.org/t/p/w300${item.poster_path}`
+            }}
+          />
+        )
+      }));
+      return mapItems;
+    };
+
+    const getTrendingItems = async (params = {}) => {
+      const data = await getTrending(params);
+      return data;
+    };
+
+    const getPopularItems = async (params = {}) => {
+      const data = await getPopular(params);
+      return data;
+    };
+
+    const getAllGenres = async (params = {}) => {
+      const data = await getCategories(params);
       return data;
     };
 
     getTrendingItems()
       .then((data) => {
-        const cards = data.map((item) => (
-          <Card
-            data={{
-              id: item.id,
-              title: item.title,
-              image: `https://image.tmdb.org/t/p/w300${item.poster_path}`
-            }}
-          />
-        ));
-        setTrendingItems(cards);
+        setTrendingMovies(mapCardItems(data));
       })
+      .catch((err) => console.log(err));
+
+    getTrendingItems({ mediaType: 'tv' })
+      .then((data) => {
+        setTrendingSeries(mapCardItems(data));
+      })
+      .catch((err) => console.log(err));
+
+    getPopularItems()
+      .then((data) => {
+        setPopularItems(mapCardItems(data));
+      })
+      .catch((err) => console.log(err));
+
+    getAllGenres()
+      .then((data) => setGenres(data))
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <>
-      <section className="shelf">
+      <SlideSection title="Trending Movies" slides={trendingMovies} />
+      <SlideSection title="Trending Series" slides={trendingSeries} />
+      <SlideSection title="Most Popular" slides={popularItems} />
+      <section className="shelf shelf--genres">
         <header className="shelf__header">
-          <h2 className="shelf__title">Trending</h2>
-          <Button
-            text="See more"
-            className="shelf__more-button"
-            variant="rounded"
-          />
+          <h2 className="shelf__title">Movie Genres</h2>
         </header>
-        <SlideGroup items={trendingItems} />
-      </section>
-      <section className="shelf">
-        <header className="shelf__header">
-          <h2 className="shelf__title">Most Popular</h2>
-          <Button
-            text="See more"
-            className="shelf__more-button"
-            variant="rounded"
-          />
-        </header>
-        <SlideGroup items={[]} />
+        <ul className="list">
+          {genres.map((item) => (
+            <li key={item.id} className="list__item">
+              <Button
+                text={item.name}
+                variant="gradient"
+                className="list__chip"
+              />
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );
