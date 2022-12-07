@@ -11,6 +11,7 @@
   --info-color: rgb(88, 67, 138);
   --accent-color: rgb(196, 188, 22);
 
+  --main-color-value: 31, 32, 35;
   --secondary-color-value: 16, 32, 45;
   --text-color-value: 242, 242, 242;
   --primary-color-value: 0, 137, 196;
@@ -39,4 +40,8 @@
   100% {
     outline-color: transparent;
   }
+}
+
+.scrollbar-none {
+  overflow-y: hidden;
 }

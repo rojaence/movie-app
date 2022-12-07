@@ -1,0 +1,26 @@
+@import '@/styles/_variables.scss';
+
+.modal-wrapper {
+  position: fixed;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  @extend .app-scrollbar;
+  background-color: rgba(var(--main-color-value), 0.8);
+  animation: fadeIn 0.1s;
+  &--active {
+    display: block;
+    z-index: 100;
+  }
+}
+
+.modal-content {
+  background-color: red;
+  width: 100%;
+  @media screen and (min-width: 900px) {
+    max-width: 450px;
+  }
+}
