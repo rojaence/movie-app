@@ -6,12 +6,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '@/styles/modal.scss';
 
-function Modal({ children, open, hide }) {
+function Modal({ children, open, hide, modalClass }) {
   const handleContentClick = (e) => e.stopPropagation();
 
   return (
     <div
-      className={`modal-wrapper${open ? ' modal-wrapper--active' : ''}`}
+      className={`modal-wrapper${open ? ' modal-wrapper--active' : ''}${
+        modalClass ? ` ${modalClass}` : ''
+      }`}
       role="dialog"
       onClick={hide}
     >
@@ -25,13 +27,18 @@ function Modal({ children, open, hide }) {
 Modal.defaultProps = {
   children: null,
   open: false,
-  hide: null
+  hide: null,
+  modalClass: null
 };
 
 Modal.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
   open: PropTypes.bool,
-  hide: PropTypes.func
+  hide: PropTypes.func,
+  modalClass: PropTypes.string
 };
 
 export default Modal;

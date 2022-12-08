@@ -1,0 +1,31 @@
+@import '@/styles/variables.scss';
+
+.drawer {
+  overflow-x: hidden;
+  .modal-content {
+    height: 100%;
+    width: 75%;
+    padding: 1rem;
+    box-sizing: border-box;
+    @extend .backdrop-blur;
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.4);
+    @media screen and (min-width: 600px) {
+      width: 350px;
+    }
+  }
+  &--left {
+    .close-button {
+      margin-left: auto;
+    }
+    .modal-content {
+      margin-right: auto;
+      animation: slideLeft 0.2s;
+    }
+  }
+  &--right {
+    .modal-content {
+      margin-left: auto;
+      animation: slideRight 0.2s;
+    }
+  }
+}

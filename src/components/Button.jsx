@@ -4,7 +4,17 @@ import '@/styles/button.scss';
 
 const Button = forwardRef(
   (
-    { color, variant, text, onClick, style, startIcon, endIcon, className },
+    {
+      color,
+      variant,
+      text,
+      onClick,
+      style,
+      startIcon,
+      endIcon,
+      className,
+      title
+    },
     ref
   ) => {
     const stylesClasses = [
@@ -39,6 +49,7 @@ const Button = forwardRef(
         onClick={onClick}
         ref={ref}
         type="button"
+        title={title}
       >
         {startIcon}
         {text && <span className="button__text">{text}</span>}
@@ -56,6 +67,7 @@ Button.defaultProps = {
   startIcon: null,
   endIcon: null,
   className: '',
+  title: '',
   style: {}
 };
 
@@ -67,6 +79,7 @@ Button.propTypes = {
   startIcon: PropTypes.element,
   endIcon: PropTypes.element,
   className: PropTypes.string,
+  title: PropTypes.string,
   style: PropTypes.shape({})
 };
 

@@ -9,18 +9,11 @@
   left: 0;
   overflow-y: auto;
   @extend .app-scrollbar;
-  background-color: rgba(var(--main-color-value), 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.1s;
   &--active {
-    display: block;
+    display: grid;
+    place-items: center;
     z-index: 100;
-  }
-}
-
-.modal-content {
-  background-color: red;
-  width: 100%;
-  @media screen and (min-width: 900px) {
-    max-width: 450px;
   }
 }
