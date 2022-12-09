@@ -3,9 +3,35 @@ import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
+import { Link } from 'react-router-dom';
 
 function AppHeader() {
   const menuDrawer = useModal();
+
+  const onClickItem = () => menuDrawer.hide();
+
+  const mainMenu = [
+    {
+      name: 'Home',
+      path: '/'
+    },
+    {
+      name: 'Movies',
+      path: '#'
+    },
+    {
+      name: 'Series',
+      path: '#'
+    },
+    {
+      name: 'Trending',
+      path: '#'
+    },
+    {
+      name: 'Most popular',
+      path: '#'
+    }
+  ];
   return (
     <header className="app-header elevation-1">
       <Button
@@ -46,11 +72,18 @@ function AppHeader() {
           />
         }
       >
-        <article>
-          <h2>Título del drawer</h2>
-          <Button onClick={menuDrawer.hide} text="Cerrar drawer" />
-          <p>modal : {menuDrawer.open ? 'true' : 'false'}</p>
-        </article>
+        <ul className="list">
+          {mainMenu.map((item) => (
+            <Link
+              className="list__item list__item--link"
+              to={item.path}
+              key={item.name}
+              onClick={onClickItem}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </ul>
       </Drawer>
     </header>
   );

@@ -75,13 +75,13 @@ function Home() {
         <header className="shelf__header">
           <h2 className="shelf__title">Movie Genres</h2>
         </header>
-        <ul className="list">
+        <ul className="list list--row">
           {genres.map((item) => (
             <li key={item.id} className="list__item">
               <Button
                 text={item.name}
                 variant="gradient"
-                className="list__chip"
+                style={{ fontWeight: 500 }}
               />
             </li>
           ))}
