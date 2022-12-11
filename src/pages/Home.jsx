@@ -6,8 +6,7 @@ import Button from '@/components/Button';
 import SlideSection from '@/containers/SlideSection';
 
 function Home() {
-  const [trendingMovies, setTrendingMovies] = useState([]);
-  const [trendingSeries, setTrendingSeries] = useState([]);
+  const [trendingItems, setTrendingItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [genres, setGenres] = useState([]);
 
@@ -43,17 +42,12 @@ function Home() {
       return data;
     };
 
-    getTrendingItems()
-      .then((data) => {
-        setTrendingMovies(mapCardItems(data));
-      })
-      .catch((err) => console.log(err));
-
-    getTrendingItems({ mediaType: 'tv' })
-      .then((data) => {
-        setTrendingSeries(mapCardItems(data));
-      })
-      .catch((err) => console.log(err));
+    getTrendingItems({ mediaType: 'all' }).then((data) => {
+      const filters = ['tv', 'movie'];
+      const filtered = data.filter((item) => filters.includes(item.media_type));
+      filtered.sort((a, b) => b.popularity - a.popularity);
+      setTrendingItems(mapCardItems(filtered));
+    });
 
     getPopularItems()
       .then((data) => {
@@ -68,9 +62,8 @@ function Home() {
 
   return (
     <>
-      <SlideSection title="Trending Movies" slides={trendingMovies} />
-      <SlideSection title="Trending Series" slides={trendingSeries} />
-      <SlideSection title="Most Popular" slides={popularItems} />
+      <SlideSection title="Trending" slides={trendingItems} link="trending" />
+      <SlideSection title="Most Popular" slides={popularItems} link="popular" />
       <section className="shelf shelf--genres">
         <header className="shelf__header">
           <h2 className="shelf__title">Movie Genres</h2>

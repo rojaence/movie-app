@@ -25,11 +25,11 @@ function AppHeader() {
     },
     {
       name: 'Trending',
-      path: '#'
+      path: 'trending'
     },
     {
       name: 'Most popular',
-      path: '#'
+      path: 'popular'
     }
   ];
   return (
