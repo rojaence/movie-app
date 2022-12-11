@@ -15,14 +15,14 @@ function ToggleButtonGroup({ selected, toggle, buttonVariant, items, color }) {
     <div className="toggle-group">
       {items.map((item) => (
         <Button
-          text={item}
-          key={item}
+          text={item.text}
+          key={item.text}
           variant={buttonVariant}
           onClick={() => toggle(item)}
           color={color}
-          style={item === selected ? activeStyle : inactiveStyle}
+          style={item.value === selected.value ? activeStyle : inactiveStyle}
           className={`toggle-group__item${
-            item === selected ? ' toggle-group__item--active' : ''
+            item.value === selected.value ? ' toggle-group__item--active' : ''
           }`}
         />
       ))}
@@ -39,11 +39,19 @@ ToggleButtonGroup.defaultProps = {
 };
 
 ToggleButtonGroup.propTypes = {
-  selected: PropTypes.string,
+  selected: PropTypes.shape({
+    text: PropTypes.string,
+    value: PropTypes.string
+  }),
   toggle: PropTypes.func,
   buttonVariant: PropTypes.string,
   color: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.string)
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      value: PropTypes.string
+    })
+  )
 };
 
 export default ToggleButtonGroup;

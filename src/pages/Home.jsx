@@ -29,12 +29,12 @@ function Home() {
 
     const getTrendingItems = async (params = {}) => {
       const data = await getTrending(params);
-      return data;
+      return data.results;
     };
 
     const getPopularItems = async (params = {}) => {
       const data = await getPopular(params);
-      return data;
+      return data.results;
     };
 
     const getAllGenres = async (params = {}) => {
@@ -62,8 +62,18 @@ function Home() {
 
   return (
     <>
-      <SlideSection title="Trending" slides={trendingItems} link="trending" />
-      <SlideSection title="Most Popular" slides={popularItems} link="popular" />
+      <SlideSection
+        title="Trending"
+        slides={trendingItems}
+        link="trending"
+        time="Today"
+      />
+      <SlideSection
+        title="Most Popular"
+        slides={popularItems}
+        link="popular"
+        time="Today"
+      />
       <section className="shelf shelf--genres">
         <header className="shelf__header">
           <h2 className="shelf__title">Movie Genres</h2>

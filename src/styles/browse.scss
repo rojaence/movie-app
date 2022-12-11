@@ -4,8 +4,24 @@
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    position: sticky;
   }
   &__title {
     margin: 0;
   }
+  &__body {
+    padding: 2rem 0 0;
+    box-sizing: border-box;
+  }
+  &__options {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
 }

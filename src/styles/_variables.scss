@@ -8,7 +8,7 @@
 
 .app-scrollbar {
   &::-webkit-scrollbar {
-    width: 14px;
+    width: 0.875rem;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -27,7 +27,7 @@
 
 .app-scrollbar--alt {
   &::-webkit-scrollbar {
-    height: 12px;
+    height: 0.75rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
@@ -42,7 +42,7 @@
 
 .app-scrollbar--alt-hover {
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 0.3125rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(70, 70, 70, 0.6);
@@ -63,7 +63,7 @@
 
 .backdrop-blur {
   background-color: rgba(var(--main-color-value), 0.9);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(1.25rem);
 }
 
 @keyframes fadeIn {

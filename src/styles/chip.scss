@@ -1,0 +1,12 @@
+.chip {
+  padding: 0.3rem 0.8rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  font-size: 0.9em;
+  box-sizing: border-box;
+  &--outlined {
+    border-width: 1px;
+    border-style: solid;
+  }
+}

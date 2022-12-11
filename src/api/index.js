@@ -12,15 +12,18 @@ const api = axios.create({
 
 const getTrending = async ({
   mediaType = 'movie',
-  timeWindow = 'day'
+  timeWindow = 'day',
+  page = 1
 } = {}) => {
-  const { data } = await api(`trending/${mediaType}/${timeWindow}`);
-  return data.results;
+  const { data } = await api(
+    `trending/${mediaType}/${timeWindow}?page=${page}`
+  );
+  return data;
 };
 
 const getPopular = async ({ mediaType = 'movie' }) => {
   const { data } = await api(`${mediaType}/popular`);
-  return data.results;
+  return data;
 };
 
 const getCategories = async ({ mediaType = 'movie' }) => {

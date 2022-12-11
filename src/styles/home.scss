@@ -1,6 +1,6 @@
 .shelf {
   align-items: center;
-  max-width: 1440px;
+  max-width: 90rem;
   margin: 0 auto;
   &__header {
     display: flex;
@@ -8,12 +8,24 @@
     justify-content: space-between;
     padding: 0 1rem;
     flex-wrap: wrap;
+    gap: 0.8rem;
+    cursor: default;
+    @media screen and (min-width: 600px) {
+      display: grid;
+      column-gap: 2rem;
+      grid-template-columns: auto auto 1fr;
+    }
   }
   &__title {
     margin: 0;
     font-size: 1.2rem;
   }
-  &__more-button {
-    height: 30px;
+  &__more-link {
+    .button {
+      height: 1.875rem;
+    }
+    @media screen and (min-width: 400px) {
+      justify-self: end;
+    }
   }
 }

@@ -2,21 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@/components/Button';
 import SlideGroup from '@/containers/SlideGroup';
+import Chip from '@/components/Chip';
 import { Link } from 'react-router-dom';
 
-function SlideSection({ title, slides, link }) {
+function SlideSection({ title, slides, link, time }) {
   return (
     <section className="shelf">
       <header className="shelf__header">
         <h2 className="shelf__title">{title}</h2>
+        {time && <Chip text={time} color="info" />}
         {link && (
-          <Link to={link}>
-            <Button
-              text="See more"
-              className="shelf__more-button"
-              color="primary"
-              variant="rounded"
-            />
+          <Link to={link} className="shelf__more-link">
+            <Button text="See more" color="primary" variant="rounded" />
           </Link>
         )}
       </header>
@@ -28,7 +25,8 @@ function SlideSection({ title, slides, link }) {
 SlideSection.defaultProps = {
   title: '',
   slides: [],
-  link: ''
+  link: '',
+  time: ''
 };
 
 SlideSection.propTypes = {
@@ -39,7 +37,8 @@ SlideSection.propTypes = {
       element: PropTypes.element
     })
   ),
-  link: PropTypes.string
+  link: PropTypes.string,
+  time: PropTypes.string
 };
 
 export default SlideSection;

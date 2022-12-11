@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import '@/styles/card.scss';
 
-function Card({ data }) {
-  return (
-    <article className="card" title={data.title}>
-      <h2 className="card__title">{data.title}</h2>
-      <img className="card__image" src={data.image} alt="Banner" />
-    </article>
-  );
-}
+const Card = forwardRef(({ data }, ref) => (
+  <article className="card" title={data.title} ref={ref}>
+    <h2 className="card__title">{data.title}</h2>
+    <img className="card__image" src={data.image} alt="Banner" />
+  </article>
+));
 
 Card.defaultProps = {
   data: {
