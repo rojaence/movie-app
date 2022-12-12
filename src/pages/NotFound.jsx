@@ -7,7 +7,8 @@ function NotFound() {
   return (
     <article className="not-found">
       <h2 className="not-found__title">
-        <span className="not-found__title--error">404</span>Page Not Found
+        <span className="not-found__title--error">404</span>
+        <span className="not-found__title--message">Page Not Found</span>
       </h2>
       <Link to="/">
         <Button text="Go to Home" />

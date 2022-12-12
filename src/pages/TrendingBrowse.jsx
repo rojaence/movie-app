@@ -4,6 +4,7 @@ import ToggleButtonGroup from '@/components/ToggleButtonGroup';
 import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 
 import { getTrending, getPopular } from '@/api/index';
+import { Link } from 'react-router-dom';
 import Card from '@/components/Card';
 import '@/styles/browse.scss';
 
@@ -51,39 +52,40 @@ function Browse({ pageType }) {
     const mapItems = data.map((item) => ({
       id: item.id,
       title: item.title || item.name,
-      image: `https://image.tmdb.org/t/p/w300${item.poster_path}`
+      image: `https://image.tmdb.org/t/p/w300${item.poster_path}`,
+      mediaType: item.media_type
     }));
     return mapItems;
   };
 
-  const getTrendingItems = async (params = {}) => {
-    const data = await getTrending(params);
-    return data.results;
-  };
-
-  const getPopularItems = async (params = {}) => {
-    const data = await getPopular(params);
-    return data.results;
-  };
-
   useEffect(() => {
-    if (loading) return;
-    setLoading(true);
-    if (pageType === 'trending') {
-      getTrendingItems({
-        mediaType: mediaType.selected.value,
-        timeWindow: timeWindow.selected.value
-      }).then((data) => {
-        setGallery(mapCardItems(data));
+    const getData = async () => {
+      try {
+        setLoading(true);
+        let data;
+        if (pageType === 'trending') {
+          data = await getTrending({
+            mediaType: mediaType.selected.value,
+            timeWindow: timeWindow.selected.value
+          });
+          setGallery(mapCardItems(data.results));
+        } else if (pageType === 'popular') {
+          data = await getPopular({
+            mediaType: mediaType.selected.value
+          });
+          setGallery(mapCardItems(data.results));
+        }
+      } catch (error) {
+        console.log(
+          '🚀 ~ file: TrendingBrowse.jsx:67 ~ getData ~ error',
+          error
+        );
+      } finally {
         setLoading(false);
-      });
-    } else if (pageType === 'popular') {
-      getPopularItems({ mediaType: mediaType.selected.value }).then((data) => {
-        setGallery(mapCardItems(data));
-        setLoading(false);
-      });
-    }
-  }, [mediaType, timeWindow]);
+      }
+    };
+    getData();
+  }, [pageType, timeWindow.selected.value, mediaType.selected.value]);
 
   return (
     <section className="browse container">
@@ -111,7 +113,13 @@ function Browse({ pageType }) {
       <div className="browse__body">
         <div className="gallery">
           {gallery.map((item) => (
-            <Card data={item} key={`${item.id}-${item.title || item.name}`} />
+            <Link
+              to={`/details/${item.mediaType}/${item.id}`}
+              className="link"
+              key={item.id}
+            >
+              <Card data={item} />
+            </Link>
           ))}
         </div>
       </div>

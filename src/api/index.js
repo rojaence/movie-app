@@ -23,6 +23,17 @@ const getTrending = async ({
 
 const getPopular = async ({ mediaType = 'movie' }) => {
   const { data } = await api(`${mediaType}/popular`);
+  // Solution to missing parameter in popular items from API - media_type
+  const fixResults = data.results.map((item) => ({
+    ...item,
+    media_type: mediaType
+  }));
+  data.results = fixResults;
+  return data;
+};
+
+const getMediaDetails = async ({ mediaType, mediaId } = {}) => {
+  const { data } = await api(`${mediaType}/${mediaId}`);
   return data;
 };
 
@@ -31,4 +42,4 @@ const getCategories = async ({ mediaType = 'movie' }) => {
   return data.genres;
 };
 
-export { getTrending, getCategories, getPopular };
+export { getTrending, getCategories, getPopular, getMediaDetails };

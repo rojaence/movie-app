@@ -1,0 +1,16 @@
+.not-found {
+  text-align: center;
+  &__title {
+    gap: 1rem;
+    span {
+      display: block;
+    }
+    &--error {
+      font-size: 5em;
+      color: var(--error-color);
+    }
+    &--message {
+      font-size: 2em;
+    }
+  }
+}
