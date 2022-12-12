@@ -85,3 +85,14 @@
   text-decoration: none;
   color: var(--text-color);
 }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}

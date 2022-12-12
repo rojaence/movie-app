@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '@/styles/modal.scss';
 
-function Modal({ children, open, hide, modalClass }) {
+function Modal({ children, open, hide, modalClass, fullscreen }) {
   const handleContentClick = (e) => e.stopPropagation();
 
   return (
@@ -17,7 +17,12 @@ function Modal({ children, open, hide, modalClass }) {
       role="dialog"
       onClick={hide}
     >
-      <div className="modal-content" onClick={handleContentClick}>
+      <div
+        className={`modal-content${
+          fullscreen === true ? ' modal-content--full' : ''
+        }`}
+        onClick={handleContentClick}
+      >
         {children}
       </div>
     </div>
@@ -28,7 +33,8 @@ Modal.defaultProps = {
   children: null,
   open: false,
   hide: null,
-  modalClass: null
+  modalClass: null,
+  fullscreen: false
 };
 
 Modal.propTypes = {
@@ -38,7 +44,8 @@ Modal.propTypes = {
   ]),
   open: PropTypes.bool,
   hide: PropTypes.func,
-  modalClass: PropTypes.string
+  modalClass: PropTypes.string,
+  fullscreen: PropTypes.bool
 };
 
 export default Modal;
