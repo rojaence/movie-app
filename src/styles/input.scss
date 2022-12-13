@@ -2,6 +2,7 @@
   display: grid;
   grid-template-areas: 'inputLbl inputLbl inputLbl' 'startIcon inputField endIcon';
   grid-template-columns: auto 1fr auto;
+  column-gap: 0.2rem;
   max-width: 400px;
   transition: background-color 0.2s, filter 0.15s, outline 0.2s,
     border-color 0.2s, box-shadow 0.2s;

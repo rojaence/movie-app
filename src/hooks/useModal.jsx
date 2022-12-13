@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const useModal = () => {
+const useModal = ({ persistent = false, closeKey = false } = {}) => {
   const [open, setOpen] = useState(false);
 
   const handleKeyDown = useCallback(
     (e) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (
+        (e.key === 'Escape' && !persistent) ||
+        (e.key === 'Escape' && closeKey)
+      )
+        setOpen(false);
     },
     [setOpen]
   );
@@ -16,7 +20,7 @@ const useModal = () => {
 
   useEffect(() => {
     if (open) {
-      document.documentElement.classList.add('scrollbar-none');
+      if (!persistent) document.documentElement.classList.add('scrollbar-none');
       document.addEventListener('keydown', handleKeyDown);
     } else {
       document.documentElement.classList.remove('scrollbar-none');

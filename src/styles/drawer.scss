@@ -36,11 +36,22 @@
   }
   &--top {
     place-items: start;
+    width: 100%;
     .modal-content {
       width: 100%;
       height: 18.75rem;
       max-height: 25rem;
-      animation: slideUp 0.2s;
+      animation: slideTop 0.2s;
+    }
+  }
+  &--persistent {
+    background-color: transparent;
+    .modal-content {
+      box-shadow: none;
+    }
+    &.drawer--top {
+      height: auto;
+      animation: slideTop 0.2s;
     }
   }
 }

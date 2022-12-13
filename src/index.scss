@@ -10,6 +10,7 @@
   --success-color: rgb(12, 196, 118);
   --info-color: rgb(88, 67, 138);
   --accent-color: rgb(196, 188, 22);
+  --secondary-color-alt: rgb(32, 22, 56);
 
   --main-color-value: 31, 32, 35;
   --secondary-color-value: 16, 32, 45;
@@ -20,6 +21,7 @@
   --success-color-value: 12, 196, 118;
   --info-color-value: 88, 67, 138;
   --accent-color-value: 196, 188, 22;
+  --secondary-color-alt-value: 32, 22, 56;
   --primary-gradient: linear-gradient(
     to right,
     var(--info-color) 50%,

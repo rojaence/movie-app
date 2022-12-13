@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
 import Input from '@/components/Input';
@@ -9,7 +9,8 @@ import Drawer from '@/components/Drawer';
 
 function AppHeader() {
   const menuDrawer = useModal();
-  const searchDrawer = useModal();
+  const searchDrawer = useModal({ persistent: true, closeKey: true });
+  const searchInput = useRef(null);
 
   const location = useLocation();
 
@@ -17,6 +18,18 @@ function AppHeader() {
     menuDrawer.hide();
     searchDrawer.hide();
   }, [location]);
+
+  useEffect(() => {
+    searchInput.current.value = '';
+  }, [searchDrawer.open]);
+
+  useEffect(() => {
+    if (searchDrawer.open) searchInput.current.focus();
+  }, [searchDrawer.open]);
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+  };
 
   const mainMenu = [
     {
@@ -75,16 +88,14 @@ function AppHeader() {
         hide={menuDrawer.hide}
         show={menuDrawer.show}
         open={menuDrawer.open}
-        closeButton={
-          <Button
-            color="error"
-            variant="icon"
-            onClick={menuDrawer.hide}
-            startIcon={<Icon name="close" size={25} />}
-            className="close-button"
-          />
-        }
       >
+        <Button
+          color="error"
+          variant="icon"
+          onClick={menuDrawer.hide}
+          startIcon={<Icon name="close" size={25} />}
+          className="close-button"
+        />
         <ul className="list text-uppercase">
           {mainMenu.map((item) => (
             <Link
@@ -102,7 +113,18 @@ function AppHeader() {
         show={searchDrawer.show}
         open={searchDrawer.open}
         anchor="top"
-        closeButton={
+        wrapperStyle={{
+          backgroundColor: 'transparent !important'
+        }}
+        contentStyle={{
+          backgroundColor: 'rgba(var(--secondary-color-alt-value), 1)',
+          backdropFilter: 'blur(0)'
+        }}
+        wrapperClass="elevation-1"
+        persistent
+        height={80}
+      >
+        <div className="search-drawer container">
           <Button
             color="error"
             variant="icon"
@@ -110,19 +132,21 @@ function AppHeader() {
             startIcon={<Icon name="close" size={25} />}
             className="close-button"
           />
-        }
-      >
-        <Input
-          placeholder="Search for a movie, TV show..."
-          id="search-input"
-          variant="filled"
-          startIcon={<Icon name="search" />}
-          style={{
-            maxWidth: '40rem',
-            paddingTop: '0.4rem',
-            paddingBottom: '0.4rem'
-          }}
-        />
+          <Input
+            placeholder="Search for a movie, TV show..."
+            id="search-input"
+            variant="filled"
+            ref={searchInput}
+            className="search-input"
+            onChange={handleSearch}
+            startIcon={<Icon name="search" />}
+            style={{
+              maxWidth: '40rem',
+              paddingTop: '0.4rem',
+              paddingBottom: '0.4rem'
+            }}
+          />
+        </div>
       </Drawer>
     </header>
   );
