@@ -13,6 +13,7 @@
     @media screen and (min-width: 600px) {
       display: grid;
       column-gap: 2rem;
+      grid-template-areas: 'title time link';
       grid-template-columns: auto auto 1fr;
     }
   }
@@ -21,6 +22,7 @@
     font-size: 1.2rem;
   }
   &__more-link {
+    grid-area: link;
     .button {
       height: 1.875rem;
     }

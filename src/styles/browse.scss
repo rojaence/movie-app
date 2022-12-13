@@ -28,7 +28,7 @@
   &__header {
     display: grid;
     padding: 1rem;
-    grid-template-areas: 'space txtField closeBtn';
+    grid-template-areas: 'txtField closeBtn';
     position: sticky;
     top: 0;
     @extend .backdrop-blur;

@@ -4,6 +4,7 @@ import Button from '@/components/Button';
 import SlideGroup from '@/containers/SlideGroup';
 import Chip from '@/components/Chip';
 import { Link } from 'react-router-dom';
+import '@/styles/slideSection.scss';
 
 function SlideSection({ title, slides, link, time }) {
   return (
@@ -12,7 +13,7 @@ function SlideSection({ title, slides, link, time }) {
         <h2 className="shelf__title">{title}</h2>
         {time && <Chip text={time} color="info" />}
         {link && (
-          <Link to={link} className="shelf__more-link">
+          <Link to={link} className="shelf__more-link link">
             <Button text="See more" color="primary" variant="rounded" />
           </Link>
         )}

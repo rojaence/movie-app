@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '@/styles/home.scss';
 import { getTrending, getPopular, getCategories } from '@/api/index';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
@@ -65,12 +64,7 @@ function Home() {
         link="trending"
         time="Today"
       />
-      <SlideSection
-        title="Most Popular"
-        slides={popularItems}
-        link="popular"
-        time="Today"
-      />
+      <SlideSection title="Most Popular" slides={popularItems} link="popular" />
       <section className="shelf shelf--genres">
         <header className="shelf__header">
           <h2 className="shelf__title">Movie Genres</h2>

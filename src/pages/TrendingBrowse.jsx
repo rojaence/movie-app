@@ -33,7 +33,7 @@ function Browse({ pageType }) {
       value: 'day'
     },
     {
-      text: 'Week',
+      text: 'This Week',
       value: 'week'
     }
   ];
