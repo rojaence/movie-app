@@ -5,6 +5,7 @@ import Root from '@/layouts/Root';
 import Home from '@/pages/Home';
 import TrendingBrowse from '@/pages/TrendingBrowse';
 import Details from '@/pages/Details';
+import SearchBrowse from '@/pages/SearchBrowse';
 import NotFound from '@/pages/NotFound';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             path="popular"
             element={<TrendingBrowse pageType="popular" />}
           />
+          <Route path="search/:queryParam" element={<SearchBrowse />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

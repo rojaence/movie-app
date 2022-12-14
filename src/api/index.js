@@ -42,4 +42,13 @@ const getCategories = async ({ mediaType = 'movie' }) => {
   return data.genres;
 };
 
-export { getTrending, getCategories, getPopular, getMediaDetails };
+const searchMedia = async ({ query }) => {
+  const { data } = await api(`search/multi`, {
+    params: {
+      query
+    }
+  });
+  return data;
+};
+
+export { getTrending, getCategories, getPopular, getMediaDetails, searchMedia };

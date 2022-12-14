@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
 import Input from '@/components/Input';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
@@ -13,14 +13,15 @@ function AppHeader() {
   const searchInput = useRef(null);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     menuDrawer.hide();
-    searchDrawer.hide();
+    if (!location.pathname.includes('search')) searchDrawer.hide();
   }, [location]);
 
   useEffect(() => {
-    searchInput.current.value = '';
+    if (!location.pathname.includes('search')) searchInput.current.value = '';
   }, [searchDrawer.open]);
 
   useEffect(() => {
@@ -28,7 +29,8 @@ function AppHeader() {
   }, [searchDrawer.open]);
 
   const handleSearch = (e) => {
-    console.log(e.target.value);
+    if (e.target.value.trim() !== '')
+      navigate(`/search/${e.target.value.trim()}`);
   };
 
   const mainMenu = [
