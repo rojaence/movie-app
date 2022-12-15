@@ -4,9 +4,10 @@ import ToggleButtonGroup from '@/components/ToggleButtonGroup';
 import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 
 import { getTrending, getPopular } from '@/api/index';
-import { Link } from 'react-router-dom';
-import Card from '@/components/Card';
+import mapCardData from '@/utils/index';
 import '@/styles/browse.scss';
+
+import CardGallery from '@/containers/CardGallery';
 
 function Browse({ pageType }) {
   const pageTitle = {
@@ -22,7 +23,7 @@ function Browse({ pageType }) {
       value: 'movie'
     },
     {
-      text: 'series',
+      text: 'tv shows',
       value: 'tv'
     }
   ];
@@ -48,16 +49,6 @@ function Browse({ pageType }) {
     initialSelected: timeWindowList[0]
   });
 
-  const mapCardItems = (data) => {
-    const mapItems = data.map((item) => ({
-      id: item.id,
-      title: item.title || item.name,
-      image: `https://image.tmdb.org/t/p/w300${item.poster_path}`,
-      mediaType: item.media_type
-    }));
-    return mapItems;
-  };
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -68,12 +59,12 @@ function Browse({ pageType }) {
             mediaType: mediaType.selected.value,
             timeWindow: timeWindow.selected.value
           });
-          setGallery(mapCardItems(data.results));
+          setGallery(mapCardData(data.results));
         } else if (pageType === 'popular') {
           data = await getPopular({
             mediaType: mediaType.selected.value
           });
-          setGallery(mapCardItems(data.results));
+          setGallery(mapCardData(data.results));
         }
       } catch (error) {
         console.log(
@@ -111,17 +102,7 @@ function Browse({ pageType }) {
         </div>
       </header>
       <div className="browse__body">
-        <div className="gallery">
-          {gallery.map((item) => (
-            <Link
-              to={`/details/${item.mediaType}/${item.id}`}
-              className="link"
-              key={item.id}
-            >
-              <Card data={item} />
-            </Link>
-          ))}
-        </div>
+        <CardGallery items={gallery} />
       </div>
     </section>
   );

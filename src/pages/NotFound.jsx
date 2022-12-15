@@ -10,7 +10,7 @@ function NotFound() {
         <span className="not-found__title--error">404</span>
         <span className="not-found__title--message">Page Not Found</span>
       </h2>
-      <Link to="/">
+      <Link to="/" className="link">
         <Button text="Go to Home" />
       </Link>
     </article>

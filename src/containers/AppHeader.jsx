@@ -25,12 +25,18 @@ function AppHeader() {
   }, [searchDrawer.open]);
 
   useEffect(() => {
-    if (searchDrawer.open) searchInput.current.focus();
+    if (searchDrawer.open) {
+      searchInput.current.focus();
+      window.scrollTo(0, 0);
+    }
   }, [searchDrawer.open]);
 
   const handleSearch = (e) => {
     if (e.target.value.trim() !== '')
-      navigate(`/search/${e.target.value.trim()}`);
+      navigate({
+        pathname: '/search',
+        search: `?query=${e.target.value.trim()}`
+      });
   };
 
   const mainMenu = [

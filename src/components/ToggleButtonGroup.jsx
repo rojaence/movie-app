@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import Button from '@/components/Button';
 import '@/styles/toggleGroup.scss';
 
-function ToggleButtonGroup({ selected, toggle, buttonVariant, items, color }) {
+function ToggleButtonGroup({
+  selected,
+  toggle,
+  buttonVariant,
+  items,
+  color,
+  className
+}) {
   const activeStyle = {
     backgroundColor: `var(--${color}-color)`,
     color: 'var(--text-color)'
@@ -12,7 +19,7 @@ function ToggleButtonGroup({ selected, toggle, buttonVariant, items, color }) {
     filter: 'brightness(1)'
   };
   return (
-    <div className="toggle-group">
+    <div className={`toggle-group${className ? ` ${className}` : ''}`}>
       {items.map((item) => (
         <Button
           text={item.text}
@@ -35,7 +42,8 @@ ToggleButtonGroup.defaultProps = {
   toggle: null,
   buttonVariant: 'text',
   color: 'primary',
-  items: []
+  items: [],
+  className: ''
 };
 
 ToggleButtonGroup.propTypes = {
@@ -51,7 +59,8 @@ ToggleButtonGroup.propTypes = {
       text: PropTypes.string,
       value: PropTypes.string
     })
-  )
+  ),
+  className: PropTypes.string
 };
 
 export default ToggleButtonGroup;

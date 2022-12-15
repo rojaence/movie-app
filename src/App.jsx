@@ -23,7 +23,7 @@ function App() {
             path="popular"
             element={<TrendingBrowse pageType="popular" />}
           />
-          <Route path="search/:queryParam" element={<SearchBrowse />} />
+          <Route path="search/" element={<SearchBrowse />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

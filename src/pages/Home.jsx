@@ -21,7 +21,9 @@ function Home() {
               data={{
                 id: item.id,
                 title: item.title || item.name,
-                image: `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                image: item.poster_path
+                  ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                  : ''
               }}
             />
           </Link>

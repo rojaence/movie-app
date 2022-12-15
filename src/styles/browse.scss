@@ -27,16 +27,34 @@
   @extend .backdrop-blur;
   &__header {
     display: grid;
-    padding: 1rem;
-    grid-template-areas: 'txtField closeBtn';
-    position: sticky;
-    top: 0;
+    padding: 0.5rem 1rem;
+    grid-template-areas: 'query' 'toggle';
+    word-break: break-all;
+    gap: 1rem;
+    align-items: center top;
     @extend .backdrop-blur;
     z-index: 50;
+    @media screen and (min-width: 768px) {
+      grid-template-areas: 'query toggle';
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+    }
+  }
+  .toggle-media {
+    justify-self: end;
+    grid-area: toggle;
+  }
+  .query-param {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    &__label {
+      font-weight: 500;
+    }
   }
   &__body {
     padding: 1rem;
-    font-size: 2em;
   }
   &__close {
     grid-area: closeBtn;
