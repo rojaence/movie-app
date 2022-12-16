@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '@/styles/chip.scss';
 
-function Chip({ text, color, variant, className }) {
+function Chip({ text, color, variant, className, style }) {
   const background = {
     outlined: 'transparent',
     text: `rgba(var(--${color}-color-value), 0.1)`,
@@ -17,7 +17,8 @@ function Chip({ text, color, variant, className }) {
       variant === 'outlined'
         ? `rgba(var(--${color}-color-value), 0.5)`
         : 'none',
-    color: 'var(--text-color)'
+    color: 'var(--text-color)',
+    ...style
   };
 
   return (
@@ -34,14 +35,16 @@ Chip.defaultProps = {
   text: '',
   color: 'text',
   variant: 'filled',
-  className: ''
+  className: '',
+  style: null
 };
 
 Chip.propTypes = {
   text: PropTypes.string,
   color: PropTypes.string,
   variant: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  style: PropTypes.shape({})
 };
 
 export default Chip;

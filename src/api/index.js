@@ -42,10 +42,11 @@ const getCategories = async ({ mediaType = 'movie' }) => {
   return data.genres;
 };
 
-const searchMedia = async ({ query }) => {
-  const { data } = await api(`search/multi`, {
+const searchMedia = async ({ query, mediaType, page }) => {
+  const { data } = await api(`search/${mediaType}`, {
     params: {
-      query
+      query,
+      page
     }
   });
   return data;

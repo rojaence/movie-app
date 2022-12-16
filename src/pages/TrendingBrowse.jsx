@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ToggleButtonGroup from '@/components/ToggleButtonGroup';
+import Card from '@/components/Card';
 import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 
 import { getTrending, getPopular } from '@/api/index';
-import mapCardData from '@/utils/index';
+import { mapCardData } from '@/utils/index';
 import '@/styles/browse.scss';
 
 import CardGallery from '@/containers/CardGallery';
+import CardGalleryItem from '@/components/CardGalleryItem';
 
 function Browse({ pageType }) {
   const pageTitle = {
@@ -102,7 +105,18 @@ function Browse({ pageType }) {
         </div>
       </header>
       <div className="browse__body">
-        <CardGallery items={gallery} />
+        <CardGallery>
+          {gallery.map((item) => (
+            <CardGalleryItem key={item.id}>
+              <Link
+                to={`/details/${item.mediaType}/${item.id}`}
+                className="link"
+              >
+                <Card data={item} />
+              </Link>
+            </CardGalleryItem>
+          ))}
+        </CardGallery>
       </div>
     </section>
   );

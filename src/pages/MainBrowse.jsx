@@ -72,10 +72,6 @@ function Browse({ pageType }) {
 
   const getPopularItems = async (params = {}) => {
     const data = await getPopular(params);
-    console.log(
-      '🚀 ~ file: TrendingBrowse.jsx:75 ~ getPopularItems ~ data',
-      data
-    );
     setLimitPage(data.total_pages);
     return data.results;
   };

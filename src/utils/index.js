@@ -10,4 +10,13 @@ const mapCardData = (data) => {
   return mapItems;
 };
 
-export default mapCardData;
+const removeDuplicateId = (data) => {
+  const set = new Set();
+  return data.filter((item) => {
+    const isDuplicate = set.has(item.id);
+    set.add(item.id);
+    return !isDuplicate;
+  });
+};
+
+export { mapCardData, removeDuplicateId };

@@ -1,38 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Card from '@/components/Card';
 import '@/styles/cardGallery.scss';
 
-function CardGallery({ items }) {
-  return (
-    <ul className="gallery">
-      {items.map((item) => (
-        <li className="gallery__item" key={item.id}>
-          <Link
-            to={`/details/${item.mediaType}/${item.id}`}
-            className="link"
-            key={item.id}
-          >
-            <Card data={item} />
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+function CardGallery({ children }) {
+  return <ul className="gallery">{children}</ul>;
 }
 
 CardGallery.defaultProps = {
-  items: []
+  children: []
 };
 
 CardGallery.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      image: PropTypes.string
-    })
-  )
+  children: PropTypes.arrayOf(PropTypes.element)
 };
 
 export default CardGallery;
