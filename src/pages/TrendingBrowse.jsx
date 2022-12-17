@@ -92,7 +92,6 @@ function Browse({ pageType }) {
               selected={timeWindow.selected}
               toggle={timeWindow.toggle}
               color="info"
-              buttonVariant="outlined"
             />
           )}
           <ToggleButtonGroup
@@ -100,7 +99,6 @@ function Browse({ pageType }) {
             selected={mediaType.selected}
             toggle={mediaType.toggle}
             color="primary"
-            buttonVariant="outlined"
           />
         </div>
       </header>

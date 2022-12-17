@@ -3,22 +3,22 @@
 :root {
   --main-color: rgb(31, 32, 35);
   --secondary-color: rgb(16, 32, 45);
-  --text-color: hsl(0, 0%, 95%);
-  --primary-color: rgb(0, 137, 196);
-  --warning-color: rgb(217, 116, 0);
+  --text-color: hsl(0, 0%, 100%);
+  --primary-color: #006d9c;
+  --warning-color: rgb(190, 101, 0);
   --error-color: rgb(250, 69, 38);
-  --success-color: rgb(21, 171, 108);
+  --success-color: rgb(20, 139, 89);
   --info-color: rgb(88, 67, 138);
   --accent-color: rgb(196, 188, 22);
   --secondary-color-alt: rgb(32, 22, 56);
 
   --main-color-value: 31, 32, 35;
   --secondary-color-value: 16, 32, 45;
-  --text-color-value: 242, 242, 242;
-  --primary-color-value: 0, 137, 196;
-  --warning-color-value: 217, 116, 0;
+  --text-color-value: 255, 255, 255;
+  --primary-color-value: 0, 109, 156;
+  --warning-color-value: 190, 101, 0;
   --error-color-value: 250, 69, 38;
-  --success-color-value: 21, 171, 108;
+  --success-color-value: 20, 139, 89;
   --info-color-value: 88, 67, 138;
   --accent-color-value: 196, 188, 22;
   --secondary-color-alt-value: 32, 22, 56;
@@ -97,4 +97,12 @@
 
 .text-uppercase {
   text-transform: uppercase;
+}
+
+.circular-progress {
+  border-bottom-color: transparent !important;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }

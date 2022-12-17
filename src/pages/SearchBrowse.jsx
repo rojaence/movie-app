@@ -6,6 +6,7 @@ import Chip from '@/components/Chip';
 import Card from '@/components/Card';
 import CardGalleryItem from '@/components/CardGalleryItem';
 import Icon from '@/components/icons/Icon';
+import CircularProgress from '@/components/CircularProgress';
 import '@/styles/browse.scss';
 
 import { searchMedia } from '@/api/index';
@@ -46,8 +47,6 @@ function SearchBrowse() {
       setTotalPages(data.total_pages);
       const results = [...data.results];
       setTotalResults(data.total_results);
-      console.log('query', query);
-      console.log(data);
       let allData = [];
       if (currentPage === 1) {
         allData = mapCardData(results);
@@ -128,7 +127,7 @@ function SearchBrowse() {
             </CardGalleryItem>
           ))}
         </CardGallery>
-        {mediaItems.length === 0 && (
+        {mediaItems.length === 0 && !loading && (
           <div className="no-results">
             <Icon name="searchOff" size={100} color="accent" />
             <Chip
@@ -138,6 +137,13 @@ function SearchBrowse() {
               style={{ width: 200, fontSize: '1.2em' }}
             />
           </div>
+        )}
+        {loading && (
+          <CircularProgress
+            size={60}
+            width={7}
+            style={{ margin: '5rem auto 0', display: 'block' }}
+          />
         )}
       </div>
     </section>
