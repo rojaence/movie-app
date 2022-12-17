@@ -31,12 +31,20 @@ function AppHeader() {
     }
   }, [searchDrawer.open]);
 
+  const navigateToSearch = (queryParam) => {
+    navigate({
+      pathname: '/search',
+      search: `?query=${queryParam}`
+    });
+  };
+
   const handleSearch = (e) => {
-    if (e.target.value.trim() !== '')
-      navigate({
-        pathname: '/search',
-        search: `?query=${e.target.value.trim()}`
-      });
+    if (e.target.value.trim() !== '') navigateToSearch(e.target.value.trim());
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.target.value.trim() !== '' && e.key === 'Enter')
+      navigateToSearch(e.target.value.trim());
   };
 
   const mainMenu = [
@@ -147,6 +155,7 @@ function AppHeader() {
             ref={searchInput}
             className="search-input"
             onChange={handleSearch}
+            onKeyDown={handleEnterKey}
             startIcon={<Icon name="search" />}
             style={{
               maxWidth: '40rem',

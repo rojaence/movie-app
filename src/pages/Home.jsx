@@ -23,7 +23,8 @@ function Home() {
                 title: item.title || item.name,
                 image: item.poster_path
                   ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-                  : ''
+                  : '',
+                mediaType: item.media_type || ''
               }}
             />
           </Link>

@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { mapCardData, removeDuplicateId } from '@/utils';
 import CardGallery from '@/containers/CardGallery';
-import ToggleButtonGroup from '@/components/ToggleButtonGroup';
-import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 import Chip from '@/components/Chip';
 import Card from '@/components/Card';
 import CardGalleryItem from '@/components/CardGalleryItem';
+import Icon from '@/components/icons/Icon';
 import '@/styles/browse.scss';
 
 import { searchMedia } from '@/api/index';
@@ -18,9 +17,8 @@ function SearchBrowse() {
   const [loading, setLoading] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
   const [lastElement, setLastElement] = useState(null);
-  const [queryParam, setQueryParam] = useState('');
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const location = useLocation();
 
   const observer = useRef(
@@ -35,50 +33,21 @@ function SearchBrowse() {
     )
   );
 
-  const mediaTypeList = [
-    {
-      text: 'all',
-      value: 'multi'
-    },
-    {
-      text: 'movies',
-      value: 'movie'
-    },
-    {
-      text: 'tv shows',
-      value: 'tv'
-    }
-  ];
-
-  const mediaType = useToggleButtonGroup({
-    initialItems: mediaTypeList,
-    initialSelected: mediaTypeList[0]
-  });
-
-  const search = async (query) => {
+  const search = async () => {
+    const query = searchParams.get('query');
     if (!query || currentPage > totalPages) return;
-    // mediaType.setSelected(mediaType.items[0]);
     try {
       setLoading(true);
       const data = await searchMedia({
         query,
-        mediaType: mediaType.selected.value,
+        mediaType: 'multi',
         page: currentPage
       });
       setTotalPages(data.total_pages);
-      let results = [];
-      if (mediaType.selected.value === 'multi') {
-        results = data.results.filter(
-          (r) => r.media_type === 'movie' || r.media_type === 'tv'
-        );
-      } else {
-        // Adding missing parameter media_type
-        results = data.results.map((result) => ({
-          ...result,
-          media_type: mediaType.selected.value
-        }));
-      }
-      setTotalResults(results.length);
+      const results = [...data.results];
+      setTotalResults(data.total_results);
+      console.log('query', query);
+      console.log(data);
       let allData = [];
       if (currentPage === 1) {
         allData = mapCardData(results);
@@ -95,17 +64,16 @@ function SearchBrowse() {
   };
 
   useEffect(() => {
-    // setQueryParam(searchParams.get('query'));
-    // search(searchParams.get('query'));
-    search(queryParam);
+    search();
   }, [currentPage]);
 
   useEffect(() => {
-    setQueryParam(searchParams.get('query'));
+    window.scrollTo(0, 0);
     setTotalPages(1);
     setCurrentPage(1);
-    window.scrollTo(0, 0);
-    search(queryParam);
+    setMediaItems([]);
+    setLastElement(null);
+    search();
   }, [searchParams]);
 
   useEffect(() => {
@@ -122,26 +90,26 @@ function SearchBrowse() {
   }, [lastElement]);
 
   useEffect(() => {
-    if ((searchParams.get('query') || queryParam) && mediaItems.length === 0) {
-      search(searchParams.get('query'));
+    if (searchParams.get('query') && mediaItems.length === 0) {
+      search();
     }
   }, [location]);
 
   return (
-    <div className="search">
+    <section className="search">
       <header className="search__header container">
-        <ToggleButtonGroup
-          items={mediaType.items}
-          selected={mediaType.selected}
-          toggle={mediaType.toggle}
-          color="primary"
-          buttonVariant="outlined"
-          className="toggle-media"
-        />
+        <div className="total-results">
+          <span className="total-results__label">Total:</span>
+          <Chip
+            text={totalResults.toString()}
+            variant="text"
+            className="total-results__value"
+          />
+        </div>
         <div className="query-param">
           <span className="query-param__label">Results for:</span>
           <Chip
-            text={queryParam}
+            text={searchParams.get('query')}
             variant="text"
             className="query-param__value"
           />
@@ -160,19 +128,19 @@ function SearchBrowse() {
             </CardGalleryItem>
           ))}
         </CardGallery>
-        {currentPage >= totalPages && (
-          <div className="end-results">
+        {mediaItems.length === 0 && (
+          <div className="no-results">
+            <Icon name="searchOff" size={100} color="accent" />
             <Chip
-              text={`${
-                mediaItems.length === 0 ? 'No results' : 'No more results'
-              }`}
-              color="info"
-              style={{ width: 200, margin: '4rem auto 0', fontSize: '1.2em' }}
+              text="No results"
+              color="accent"
+              variant="text"
+              style={{ width: 200, fontSize: '1.2em' }}
             />
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 

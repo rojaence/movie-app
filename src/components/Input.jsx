@@ -10,6 +10,7 @@ const Input = forwardRef(
       label,
       placeholder,
       onChange,
+      onKeyDown,
       id,
       className,
       style,
@@ -49,6 +50,7 @@ const Input = forwardRef(
           type={type}
           placeholder={placeholder}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           ref={ref}
         />
         {endIcon && (
@@ -72,7 +74,8 @@ Input.defaultProps = {
   style: {},
   startIcon: null,
   endIcon: null,
-  block: false
+  block: false,
+  onKeyDown: null
 };
 
 Input.propTypes = {
@@ -86,7 +89,8 @@ Input.propTypes = {
   style: PropTypes.shape({}),
   startIcon: PropTypes.element,
   endIcon: PropTypes.element,
-  block: PropTypes.bool
+  block: PropTypes.bool,
+  onKeyDown: PropTypes.func
 };
 
 export default Input;
