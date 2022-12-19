@@ -149,7 +149,7 @@ function AppHeader() {
             className="close-button"
           />
           <Input
-            placeholder="Search for a movie, TV show..."
+            placeholder="Find movies, TV shows and people..."
             id="search-input"
             variant="filled"
             ref={searchInput}

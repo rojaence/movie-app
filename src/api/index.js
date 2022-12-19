@@ -52,4 +52,21 @@ const searchMedia = async ({ query, mediaType, page }) => {
   return data;
 };
 
-export { getTrending, getCategories, getPopular, getMediaDetails, searchMedia };
+const discoverMedia = async ({ mediaType, genreIdList, page }) => {
+  const { data } = await api(`discover/${mediaType}`, {
+    params: {
+      with_genres: genreIdList.join(','),
+      page
+    }
+  });
+  return data;
+};
+
+export {
+  getTrending,
+  getCategories,
+  getPopular,
+  getMediaDetails,
+  searchMedia,
+  discoverMedia
+};

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams, Link, useLocation } from 'react-router-dom';
-import { mapCardData, removeDuplicateId } from '@/utils';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { mapCardData } from '@/utils';
 import CardGallery from '@/containers/CardGallery';
 import Chip from '@/components/Chip';
 import Card from '@/components/Card';
@@ -10,89 +10,30 @@ import CircularProgress from '@/components/CircularProgress';
 import '@/styles/browse.scss';
 
 import { searchMedia } from '@/api/index';
+import useInifinityScroll from '../hooks/useInfinityScroll';
 
 function SearchBrowse() {
   const [mediaItems, setMediaItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [totalResults, setTotalResults] = useState(0);
-  const [lastElement, setLastElement] = useState(null);
-
   const [searchParams] = useSearchParams();
-  const location = useLocation();
 
-  const observer = useRef(
-    new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting) {
-          setCurrentPage((value) => value + 1);
-        }
-      },
-      { threshold: 0.5 }
-    )
-  );
-
-  const search = async () => {
-    const query = searchParams.get('query');
-    if (!query || currentPage > totalPages) return;
-    try {
-      setLoading(true);
-      const data = await searchMedia({
-        query,
-        mediaType: 'multi',
-        page: currentPage
-      });
-      setTotalPages(data.total_pages);
-      const results = [...data.results];
-      setTotalResults(data.total_results);
-      let allData = [];
-      if (currentPage === 1) {
-        allData = mapCardData(results);
-      } else {
-        allData = [...mediaItems, ...mapCardData(results)];
-      }
-      const newData = removeDuplicateId(allData);
-      setMediaItems(newData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    search();
-  }, [currentPage]);
+  const searchLazyLoader = useInifinityScroll({
+    lazyLoader: searchMedia,
+    urlParams: { query: searchParams.get('query'), mediaType: 'multi' },
+    observerOptions: { threshold: 0.5 }
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setTotalPages(1);
-    setCurrentPage(1);
-    setMediaItems([]);
-    setLastElement(null);
-    search();
+    searchLazyLoader.reset();
   }, [searchParams]);
 
   useEffect(() => {
-    const currentElement = lastElement;
-    const currentObserver = observer.current;
-    if (currentElement) {
-      currentObserver.observe(currentElement);
-    }
-    return () => {
-      if (currentElement) {
-        currentObserver.unobserve(currentElement);
-      }
-    };
-  }, [lastElement]);
+    setMediaItems([...mapCardData(searchLazyLoader.items)]);
+  }, [searchLazyLoader.items]);
 
   useEffect(() => {
-    if (searchParams.get('query') && mediaItems.length === 0) {
-      search();
-    }
-  }, [location]);
+    window.document.documentElement.style.overflowY = 'scroll';
+  }, []);
 
   return (
     <section className="search">
@@ -100,7 +41,7 @@ function SearchBrowse() {
         <div className="total-results">
           <span className="total-results__label">Total:</span>
           <Chip
-            text={totalResults.toString()}
+            text={searchLazyLoader.totalResults.toString()}
             variant="text"
             className="total-results__value"
           />
@@ -117,7 +58,10 @@ function SearchBrowse() {
       <div className="search__body container">
         <CardGallery>
           {mediaItems.map((item) => (
-            <CardGalleryItem key={item.id} ref={setLastElement}>
+            <CardGalleryItem
+              key={item.id}
+              ref={searchLazyLoader.setLastElement}
+            >
               <Link
                 to={`/details/${item.mediaType}/${item.id}`}
                 className="link"
@@ -127,7 +71,7 @@ function SearchBrowse() {
             </CardGalleryItem>
           ))}
         </CardGallery>
-        {mediaItems.length === 0 && !loading && (
+        {mediaItems.length === 0 && !searchLazyLoader.loading && (
           <div className="no-results">
             <Icon name="searchOff" size={100} color="accent" />
             <Chip
@@ -138,7 +82,7 @@ function SearchBrowse() {
             />
           </div>
         )}
-        {loading && (
+        {searchLazyLoader.loading && (
           <CircularProgress
             size={60}
             width={7}
