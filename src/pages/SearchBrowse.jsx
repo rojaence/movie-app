@@ -9,6 +9,8 @@ import Icon from '@/components/icons/Icon';
 import CircularProgress from '@/components/CircularProgress';
 import '@/styles/browse.scss';
 
+import ScrollToTop from '@/components/ScrollToTop';
+
 import { searchMedia } from '@/api/index';
 import useInifinityScroll from '../hooks/useInfinityScroll';
 
@@ -93,6 +95,7 @@ function SearchBrowse() {
           />
         )}
       </div>
+      <ScrollToTop />
     </section>
   );
 }

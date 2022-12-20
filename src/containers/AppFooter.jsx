@@ -4,18 +4,24 @@ import Icon from '@/components/icons/Icon';
 function AppFooter() {
   return (
     <footer className="app-footer">
-      <a
-        href="https://www.themoviedb.org/"
-        className="api-attribution"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <img
-          src="./src/assets/themoviedb.svg"
-          alt="API Attribution"
-          className="api-attribution__image"
-        />
-      </a>
+      <div className="api-attribution">
+        <a
+          href="https://www.themoviedb.org/"
+          className="api-attribution__link"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src="./src/assets/themoviedb.svg"
+            alt="API Attribution"
+            className="api-attribution__image"
+          />
+        </a>
+        <p className="api-attribution__copy">
+          This product uses the TMDB API but is not endorsed or certified by
+          TMDB.
+        </p>
+      </div>
       <div className="author">
         <p className="author__name">Coded by Ronny Endara</p>
         <div className="author__social">

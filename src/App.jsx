@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route to="/" element={<Root />}>
           <Route index element={<Home />} />
-          <Route path="details/:mediaType/:movieId" element={<Details />} />
+          <Route path="details/:mediaType/:mediaId" element={<Details />} />
           <Route
             path="trending"
             element={<TrendingBrowse pageType="trending" />}

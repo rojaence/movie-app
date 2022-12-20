@@ -4,7 +4,7 @@ import { getMediaDetails } from '@/api/index';
 
 function Details() {
   const [loading, setLoading] = useState(false);
-  const { mediaType, movieId } = useParams();
+  const { mediaType, mediaId } = useParams();
   const [mediaData, setMediaData] = useState({});
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function Details() {
         setLoading(true);
         const data = await getMediaDetails({
           mediaType,
-          mediaId: movieId
+          mediaId
         });
         setMediaData(data);
       } catch (error) {

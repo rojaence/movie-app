@@ -12,6 +12,8 @@ import Icon from '@/components/icons/Icon';
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
 
+import ScrollToTop from '@/components/ScrollToTop';
+
 import { discoverMedia, getGenres } from '@/api';
 import { mapCardData } from '@/utils';
 
@@ -137,6 +139,7 @@ function DiscoverBrowse({ mediaType }) {
           ))}
         </ul>
       </Drawer>
+      <ScrollToTop />
     </section>
   );
 }
