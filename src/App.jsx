@@ -25,10 +25,8 @@ function App() {
             element={<TrendingBrowse pageType="popular" />}
           />
           <Route path="search/" element={<SearchBrowse />} />
-          <Route
-            path="discover/:mediaType/:genre"
-            element={<DiscoverBrowse />}
-          />
+          <Route path="movies" element={<DiscoverBrowse mediaType="movie" />} />
+          <Route path="tvshows" element={<DiscoverBrowse mediaType="tv" />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

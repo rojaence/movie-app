@@ -7,10 +7,11 @@ const useInifinityScroll = ({
   observerOptions
 } = {}) => {
   const [items, setItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [nextPage, setNextPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [lastElement, setLastElement] = useState(null);
+  const [queryParams, setQueryParams] = useState(urlParams);
   const [loading, setLoading] = useState(false);
 
   const observer = useRef(
@@ -18,24 +19,25 @@ const useInifinityScroll = ({
       (entries) => {
         const first = entries[0];
         if (first.isIntersecting) {
-          setCurrentPage((value) => value + 1);
+          setNextPage((value) => value + 1);
         }
       },
       { observerOptions }
     )
   );
 
-  const getNextPage = async () => {
-    if (!Object.values(urlParams).every((v) => v) || currentPage > totalPages)
-      return;
+  const isTruthy = (obj) => Object.values(obj).every((value) => value);
+
+  const getResultsPage = async () => {
+    if (!isTruthy(queryParams) || nextPage - 1 > totalPages) return;
     try {
       setLoading(true);
-      const data = await lazyLoader({ ...urlParams, page: currentPage });
+      const data = await lazyLoader({ ...queryParams, page: nextPage });
       setTotalPages(data.total_pages);
       const results = [...data.results];
       setTotalResults(data.total_results);
       let allData = [];
-      if (currentPage === 1) {
+      if (nextPage === 1) {
         allData = results;
       } else {
         allData = [...items, ...results];
@@ -54,16 +56,20 @@ const useInifinityScroll = ({
 
   const reset = () => {
     setTotalPages(1);
-    setCurrentPage(1);
+    setNextPage(1);
     setTotalResults(0);
     setItems([]);
     setLastElement(null);
-    getNextPage();
+    getResultsPage();
   };
 
   useEffect(() => {
-    getNextPage();
-  }, [currentPage]);
+    getResultsPage();
+  }, [nextPage]);
+
+  useEffect(() => {
+    reset();
+  }, [queryParams]);
 
   useEffect(() => {
     const currentElement = lastElement;
@@ -78,7 +84,15 @@ const useInifinityScroll = ({
     };
   }, [lastElement]);
 
-  return { reset, setLastElement, totalPages, totalResults, loading, items };
+  return {
+    reset,
+    setLastElement,
+    totalPages,
+    totalResults,
+    loading,
+    items,
+    setUrlParams: setQueryParams
+  };
 };
 
 export default useInifinityScroll;

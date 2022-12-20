@@ -54,11 +54,11 @@ function AppHeader() {
     },
     {
       name: 'Movies',
-      path: '#'
+      path: '/movies'
     },
     {
-      name: 'Series',
-      path: '#'
+      name: 'TV Shows',
+      path: '/tvshows'
     },
     {
       name: 'Trending',
@@ -114,13 +114,11 @@ function AppHeader() {
         />
         <ul className="list text-uppercase">
           {mainMenu.map((item) => (
-            <Link
-              className="list__item list__item--link"
-              to={item.path}
-              key={item.name}
-            >
-              {item.name}
-            </Link>
+            <li className="list__item list__item--link" key={item.name}>
+              <Link className="list__link" to={item.path}>
+                {item.name}
+              </Link>
+            </li>
           ))}
         </ul>
       </Drawer>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getTrending, getPopular, getCategories } from '@/api/index';
+import { getTrending, getPopular } from '@/api/index';
 import Card from '@/components/Card';
-import Button from '@/components/Button';
 import SlideSection from '@/containers/SlideSection';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +8,6 @@ function Home() {
   const [trendingItems, setTrendingItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     const mapCardItems = (data) => {
@@ -46,9 +44,6 @@ function Home() {
 
         const popularData = await getPopular({});
         setPopularItems(mapCardItems(popularData.results));
-
-        const genresData = await getCategories({});
-        setGenres(genresData);
       } catch (error) {
         console.log('🚀 ~ file: Home.jsx:65 ~ getData ~ error', error);
       } finally {
@@ -68,12 +63,12 @@ function Home() {
         time="Today"
       />
       <SlideSection title="Most Popular" slides={popularItems} link="popular" />
-      <section className="shelf shelf--genres">
+      {/* <section className="shelf shelf--genres">
         <header className="shelf__header">
           <h2 className="shelf__title">Movie Genres</h2>
         </header>
         <ul className="list list--row">
-          {genres.map((item) => (
+          {movieGenres.map((item) => (
             <li key={item.id} className="list__item">
               <Button
                 text={item.name}
@@ -84,6 +79,22 @@ function Home() {
           ))}
         </ul>
       </section>
+      <section className="shelf shelf--genres">
+        <header className="shelf__header">
+          <h2 className="shelf__title">TV Genres</h2>
+        </header>
+        <ul className="list list--row">
+          {tvGenres.map((item) => (
+            <li key={item.id} className="list__item">
+              <Button
+                text={item.name}
+                variant="gradient"
+                style={{ fontWeight: 500 }}
+              />
+            </li>
+          ))}
+        </ul>
+      </section> */}
     </>
   );
 }

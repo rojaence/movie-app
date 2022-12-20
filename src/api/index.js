@@ -37,7 +37,7 @@ const getMediaDetails = async ({ mediaType, mediaId } = {}) => {
   return data;
 };
 
-const getCategories = async ({ mediaType = 'movie' }) => {
+const getGenres = async ({ mediaType = 'movie' } = {}) => {
   const { data } = await api(`genre/${mediaType}/list`);
   return data.genres;
 };
@@ -52,10 +52,10 @@ const searchMedia = async ({ query, mediaType, page }) => {
   return data;
 };
 
-const discoverMedia = async ({ mediaType, genreIdList, page }) => {
+const discoverMedia = async ({ mediaType, genreIdString, page }) => {
   const { data } = await api(`discover/${mediaType}`, {
     params: {
-      with_genres: genreIdList.join(','),
+      with_genres: genreIdString,
       page
     }
   });
@@ -64,7 +64,7 @@ const discoverMedia = async ({ mediaType, genreIdList, page }) => {
 
 export {
   getTrending,
-  getCategories,
+  getGenres,
   getPopular,
   getMediaDetails,
   searchMedia,

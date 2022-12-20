@@ -54,4 +54,8 @@
     background-color: transparent;
     background-image: var(--primary-gradient);
   }
+  &--plain {
+    color: var(--text-color) !important;
+    background-color: transparent !important;
+  }
 }

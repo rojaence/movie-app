@@ -24,7 +24,10 @@ function SearchBrowse() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    searchLazyLoader.reset();
+    searchLazyLoader.setUrlParams({
+      query: searchParams.get('query'),
+      mediaType: 'multi'
+    });
   }, [searchParams]);
 
   useEffect(() => {
