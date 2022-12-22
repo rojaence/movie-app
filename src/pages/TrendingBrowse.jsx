@@ -11,6 +11,7 @@ import '@/styles/browse.scss';
 
 import CardGallery from '@/containers/CardGallery';
 import CardGalleryItem from '@/components/CardGalleryItem';
+import CircularProgress from '@/components/CircularProgress';
 
 function Browse({ pageType }) {
   const pageTitle = {
@@ -116,6 +117,13 @@ function Browse({ pageType }) {
           ))}
         </CardGallery>
       </div>
+      {loading && (
+        <CircularProgress
+          size={60}
+          width={7}
+          style={{ margin: '5rem auto 0', display: 'block' }}
+        />
+      )}
     </section>
   );
 }

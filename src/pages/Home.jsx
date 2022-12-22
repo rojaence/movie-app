@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getTrending, getPopular } from '@/api/index';
 import Card from '@/components/Card';
 import SlideSection from '@/containers/SlideSection';
 import { Link } from 'react-router-dom';
 
+import Button from '@/components/Button';
+import { SnackbarContext } from '@/context/SnackbarContext';
+
 function Home() {
   const [trendingItems, setTrendingItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const snackbar = useContext(SnackbarContext);
 
   useEffect(() => {
     const mapCardItems = (data) => {
@@ -95,6 +100,23 @@ function Home() {
           ))}
         </ul>
       </section> */}
+      <Button
+        text="Lanzar snackbar success"
+        color="success"
+        onClick={() =>
+          snackbar.show({ message: 'Hello world!', color: 'success' })
+        }
+      />
+      <Button
+        text="Lanzar snackbar error"
+        color="error"
+        onClick={() =>
+          snackbar.show({
+            message: 'Hello world!',
+            color: 'error'
+          })
+        }
+      />
     </>
   );
 }

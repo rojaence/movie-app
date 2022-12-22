@@ -6,8 +6,8 @@
   --text-color: hsl(0, 0%, 100%);
   --primary-color: #006d9c;
   --warning-color: rgb(190, 101, 0);
-  --error-color: rgb(250, 69, 38);
-  --success-color: rgb(20, 139, 89);
+  --error-color: rgb(172, 50, 28);
+  --success-color: rgb(19, 127, 82);
   --info-color: rgb(88, 67, 138);
   --accent-color: rgb(196, 188, 22);
   --secondary-color-alt: rgb(32, 22, 56);
@@ -17,8 +17,8 @@
   --text-color-value: 255, 255, 255;
   --primary-color-value: 0, 109, 156;
   --warning-color-value: 190, 101, 0;
-  --error-color-value: 250, 69, 38;
-  --success-color-value: 20, 139, 89;
+  --error-color-value: 172, 50, 28;
+  --success-color-value: 19, 127, 82;
   --info-color-value: 88, 67, 138;
   --accent-color-value: 196, 188, 22;
   --secondary-color-alt-value: 32, 22, 56;
@@ -91,13 +91,6 @@
 .link {
   text-decoration: none;
   color: var(--text-color);
-}
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  justify-content: center;
 }
 
 .text-uppercase {
