@@ -28,16 +28,16 @@ const useInifinityScroll = ({
 
   const isTruthy = (obj) => Object.values(obj).every((value) => value);
 
-  const getResultsPage = async () => {
-    if (!isTruthy(queryParams) || nextPage - 1 > totalPages) return;
+  const getResultsPage = async (page) => {
+    if (!isTruthy(queryParams) || page - 1 > totalPages) return;
     try {
       setLoading(true);
-      const data = await lazyLoader({ ...queryParams, page: nextPage });
+      const data = await lazyLoader({ ...queryParams, page });
       setTotalPages(data.total_pages);
       const results = [...data.results];
       setTotalResults(data.total_results);
       let allData = [];
-      if (nextPage === 1) {
+      if (page === 1) {
         allData = results;
       } else {
         allData = [...items, ...results];
@@ -60,11 +60,12 @@ const useInifinityScroll = ({
     setTotalResults(0);
     setItems([]);
     setLastElement(null);
-    getResultsPage();
+    getResultsPage(1);
   };
 
   useEffect(() => {
-    getResultsPage();
+    if (nextPage === 1 && totalPages === 1) return;
+    getResultsPage(nextPage);
   }, [nextPage]);
 
   useEffect(() => {

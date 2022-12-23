@@ -52,10 +52,11 @@ const searchMedia = async ({ query, mediaType, page }) => {
   return data;
 };
 
-const discoverMedia = async ({ mediaType, genreIdString, page }) => {
+const discoverMedia = async ({ mediaType, genreIdString, sortBy, page }) => {
   const { data } = await api(`discover/${mediaType}`, {
     params: {
       with_genres: genreIdString,
+      sort_by: sortBy,
       page
     }
   });

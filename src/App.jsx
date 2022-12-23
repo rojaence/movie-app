@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.scss';
 import Root from '@/layouts/Root';
 import Home from '@/pages/Home';
@@ -31,6 +31,14 @@ function App() {
             <Route
               path="movies"
               element={<DiscoverBrowse mediaType="movie" />}
+            />
+            <Route
+              path="movies/*"
+              element={<Navigate to="/movies" replace />}
+            />
+            <Route
+              path="tvshows/*"
+              element={<Navigate to="/tvshows" replace />}
             />
             <Route path="tvshows" element={<DiscoverBrowse mediaType="tv" />} />
             <Route path="*" element={<NotFound />} />

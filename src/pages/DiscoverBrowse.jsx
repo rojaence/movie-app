@@ -11,6 +11,8 @@ import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
+import ToggleButtonGroup from '@/components/ToggleButtonGroup';
+import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 
 import ScrollToTop from '@/components/ScrollToTop';
 
@@ -25,19 +27,56 @@ function DiscoverBrowse({ mediaType }) {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState({ id: 0, name: '' });
 
-  const discoverLazyLoader = useInfinityScroll({
-    lazyLoader: discoverMedia,
-    urlParams: {
-      mediaType,
-      genreIdString: selectedGenre.id
-    },
-    observerOptions: { threshold: 0.5 }
-  });
-
   const pageTitle = {
     movie: 'Movies',
     tv: 'TV Shows'
   };
+
+  const orderFilters = {
+    tv: [
+      {
+        text: 'Popularity',
+        value: 'popularity.desc'
+      },
+      {
+        text: 'Rating',
+        value: 'vote_average.desc'
+      },
+      {
+        text: 'Release date',
+        value: 'first_air_date.desc'
+      }
+    ],
+    movie: [
+      {
+        text: 'Popularity',
+        value: 'popularity.desc'
+      },
+      {
+        text: 'Rating',
+        value: 'vote_average.desc'
+      },
+      {
+        text: 'Release date',
+        value: 'release_date.desc'
+      }
+    ]
+  };
+
+  const toggleSort = useToggleButtonGroup({
+    initialItems: orderFilters[mediaType],
+    initialSelected: orderFilters[mediaType][0]
+  });
+
+  const discoverLazyLoader = useInfinityScroll({
+    lazyLoader: discoverMedia,
+    urlParams: {
+      mediaType,
+      genreIdString: selectedGenre.id,
+      sortBy: orderFilters[mediaType][0].value
+    },
+    observerOptions: { threshold: 0.5 }
+  });
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -59,12 +98,13 @@ function DiscoverBrowse({ mediaType }) {
     const getMediaByGenre = async () => {
       discoverLazyLoader.setUrlParams({
         mediaType,
-        genreIdString: selectedGenre.id
+        genreIdString: selectedGenre.id,
+        sortBy: toggleSort.selected.value
       });
     };
     getMediaByGenre();
     filterDrawer.hide();
-  }, [selectedGenre]);
+  }, [selectedGenre, toggleSort.selected]);
 
   useEffect(() => {
     setMediaItems([...mapCardData(discoverLazyLoader.items)]);
@@ -77,13 +117,25 @@ function DiscoverBrowse({ mediaType }) {
           {pageTitle[mediaType]}{' '}
           <span style={{ fontWeight: 'normal' }}>/ {selectedGenre.name}</span>
         </h2>
-        <Button
-          onClick={filterDrawer.show}
-          text="Genres"
-          color="info"
-          title="Filters"
-          startIcon={<Icon name="filters" />}
-        />
+        <div className="browse__options">
+          <div className="sort">
+            <span className="sort__label">Sort by:</span>
+            <ToggleButtonGroup
+              items={toggleSort.items}
+              selected={toggleSort.selected}
+              toggle={toggleSort.toggle}
+              color="info"
+            />
+          </div>
+          <Button
+            onClick={filterDrawer.show}
+            text="Genres"
+            color="info"
+            title="Filters"
+            className="genres-button"
+            startIcon={<Icon name="filters" />}
+          />
+        </div>
       </header>
       <div className="browse__body container">
         <CardGallery>
