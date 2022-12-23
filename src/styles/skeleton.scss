@@ -1,0 +1,24 @@
+.skeleton {
+  animation: pulse 1.5s infinite;
+  &--rounded {
+    border-radius: 0.5rem;
+  }
+  &--circular {
+    border-radius: 50%;
+  }
+  &--rectangular {
+    border-radius: 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(var(--text-color-value), 0.1);
+  }
+  50% {
+    background-color: rgba(var(--text-color-value), 0.2);
+  }
+  100% {
+    background-color: rgba(var(--text-color-value), 0.1);
+  }
+}

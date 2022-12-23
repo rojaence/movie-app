@@ -62,4 +62,10 @@
       height: 365px;
     }
   }
+  &--skeleton {
+    cursor: default;
+    &:hover {
+      background-color: inherit;
+    }
+  }
 }

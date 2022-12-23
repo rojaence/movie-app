@@ -64,7 +64,11 @@ function SlideGroup({ items }) {
             {item.element}
           </li>
         ))}
-        {items.length === 0 && 'No data'}
+        {items.length === 0 && (
+          <li style={{ width: '100%', height: '100%', textAlign: 'center' }}>
+            No data
+          </li>
+        )}
       </ul>
       <Button
         startIcon={<Icon name="chevronRight" size={30} viewBox="-4 -4 50 50" />}

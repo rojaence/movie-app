@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { getTrending, getPopular } from '@/api/index';
 import Card from '@/components/Card';
 import SlideSection from '@/containers/SlideSection';
-import { Link } from 'react-router-dom';
+import CardSkeleton from '@/components/CardSkeleton';
 
-import Button from '@/components/Button';
+import { Link } from 'react-router-dom';
 import { SnackbarContext } from '@/context/SnackbarContext';
 
 function Home() {
@@ -14,28 +14,39 @@ function Home() {
 
   const snackbar = useContext(SnackbarContext);
 
-  useEffect(() => {
-    const mapCardItems = (data) => {
-      const mapItems = data.map((item) => ({
-        id: item.id,
-        element: (
-          <Link to={`details/${item.media_type}/${item.id}`} className="link">
-            <Card
-              data={{
-                id: item.id,
-                title: item.title || item.name,
-                image: item.poster_path
-                  ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-                  : '',
-                mediaType: item.media_type || ''
-              }}
-            />
-          </Link>
-        )
-      }));
-      return mapItems;
-    };
+  const mapCardItems = (data) => {
+    const mapItems = data.map((item) => ({
+      id: item.id,
+      element: (
+        <Link to={`details/${item.media_type}/${item.id}`} className="link">
+          <Card
+            data={{
+              id: item.id,
+              title: item.title || item.name,
+              image: item.poster_path
+                ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                : '',
+              mediaType: item.media_type || ''
+            }}
+          />
+        </Link>
+      )
+    }));
+    return mapItems;
+  };
 
+  const skeletonCards = (quantity) => {
+    const items = [];
+    for (let i = 1; i <= quantity; i += 1) {
+      items.push({
+        id: `skeleton-${i}`,
+        element: <CardSkeleton />
+      });
+    }
+    return items;
+  };
+
+  useEffect(() => {
     const getData = async () => {
       try {
         setLoading(true);
@@ -50,7 +61,7 @@ function Home() {
         const popularData = await getPopular({});
         setPopularItems(mapCardItems(popularData.results));
       } catch (error) {
-        console.log('🚀 ~ file: Home.jsx:65 ~ getData ~ error', error);
+        snackbar.show({ message: error.message, color: 'error' });
       } finally {
         setLoading(false);
       }
@@ -63,59 +74,14 @@ function Home() {
     <>
       <SlideSection
         title="Trending"
-        slides={trendingItems}
+        slides={loading ? skeletonCards(6) : trendingItems}
         link="trending"
         time="Today"
       />
-      <SlideSection title="Most Popular" slides={popularItems} link="popular" />
-      {/* <section className="shelf shelf--genres">
-        <header className="shelf__header">
-          <h2 className="shelf__title">Movie Genres</h2>
-        </header>
-        <ul className="list list--row">
-          {movieGenres.map((item) => (
-            <li key={item.id} className="list__item">
-              <Button
-                text={item.name}
-                variant="gradient"
-                style={{ fontWeight: 500 }}
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section className="shelf shelf--genres">
-        <header className="shelf__header">
-          <h2 className="shelf__title">TV Genres</h2>
-        </header>
-        <ul className="list list--row">
-          {tvGenres.map((item) => (
-            <li key={item.id} className="list__item">
-              <Button
-                text={item.name}
-                variant="gradient"
-                style={{ fontWeight: 500 }}
-              />
-            </li>
-          ))}
-        </ul>
-      </section> */}
-      <Button
-        text="Lanzar snackbar success"
-        color="success"
-        onClick={() =>
-          snackbar.show({ message: 'Hello world!', color: 'success' })
-        }
-      />
-      <Button
-        text="Lanzar snackbar error"
-        color="error"
-        onClick={() =>
-          snackbar.show({
-            message: 'Hello world!',
-            color: 'error'
-          })
-        }
+      <SlideSection
+        title="Most Popular"
+        slides={loading ? skeletonCards(6) : popularItems}
+        link="popular"
       />
     </>
   );

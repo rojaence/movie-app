@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Card from '@/components/Card';
@@ -18,6 +18,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 
 import { discoverMedia, getGenres } from '@/api';
 import { mapCardData } from '@/utils';
+import { SnackbarContext } from '@/context/SnackbarContext';
 
 import '@/styles/browse.scss';
 
@@ -26,6 +27,8 @@ function DiscoverBrowse({ mediaType }) {
   const filterDrawer = useModal();
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState({ id: 0, name: '' });
+
+  const snackbar = useContext(SnackbarContext);
 
   const pageTitle = {
     movie: 'Movies',
@@ -85,10 +88,7 @@ function DiscoverBrowse({ mediaType }) {
         setGenres(data);
         setSelectedGenre(data[0]);
       } catch (error) {
-        console.log(
-          '🚀 ~ file: DiscoverBrowse.jsx:48 ~ loadData ~ error',
-          error
-        );
+        snackbar.show({ message: error.message, color: 'error' });
       }
     };
     loadGenres();
