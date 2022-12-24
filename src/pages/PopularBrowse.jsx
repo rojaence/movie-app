@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ToggleButtonGroup from '@/components/ToggleButtonGroup';
 import Card from '@/components/Card';
 import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
+import useInfinityScroll from '@/hooks/useInfinityScroll';
 
-import { getTrending } from '@/api/index';
+import { getPopular } from '@/api/index';
 import { mapCardData } from '@/utils/index';
-import { SnackbarContext } from '@/context/SnackbarContext';
 import '@/styles/browse.scss';
 
 import CardGallery from '@/containers/CardGallery';
@@ -14,9 +14,7 @@ import CardGalleryItem from '@/components/CardGalleryItem';
 import CircularProgress from '@/components/CircularProgress';
 import ScrollToTop from '@/components/ScrollToTop';
 
-function Browse() {
-  const snackbar = useContext(SnackbarContext);
-  const [loading, setLoading] = useState(false);
+function PopularBrowse() {
   const [mediaItems, setMediaItems] = useState([]);
 
   const mediaTypeList = [
@@ -30,56 +28,34 @@ function Browse() {
     }
   ];
 
-  const timeWindowList = [
-    {
-      text: 'Today',
-      value: 'day'
-    },
-    {
-      text: 'This Week',
-      value: 'week'
-    }
-  ];
-
   const mediaType = useToggleButtonGroup({
     initialItems: mediaTypeList,
     initialSelected: mediaTypeList[0]
   });
 
-  const timeWindow = useToggleButtonGroup({
-    initialItems: timeWindowList,
-    initialSelected: timeWindowList[0]
+  const popularLazyLoader = useInfinityScroll({
+    lazyLoader: getPopular,
+    urlParams: {
+      mediaType: mediaType.selected.value
+    },
+    observerOptions: { threshold: 0.5 }
   });
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        setLoading(true);
-        const data = await getTrending({
-          mediaType: mediaType.selected.value,
-          timeWindow: timeWindow.selected.value
-        });
-        setMediaItems(mapCardData(data.results));
-      } catch (error) {
-        snackbar.show({ message: error.message, color: 'error' });
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, [timeWindow.selected.value, mediaType.selected.value]);
+    popularLazyLoader.setUrlParams({
+      mediaType: mediaType.selected.value
+    });
+  }, [mediaType.selected.value]);
+
+  useEffect(() => {
+    setMediaItems([...mapCardData(popularLazyLoader.items)]);
+  }, [popularLazyLoader.items]);
 
   return (
     <section className="browse container">
       <header className="browse__header">
-        <h2 className="browse__title">Trending</h2>
+        <h2 className="browse__title">Most Popular</h2>
         <div className="browse__options">
-          <ToggleButtonGroup
-            items={timeWindow.items}
-            selected={timeWindow.selected}
-            toggle={timeWindow.toggle}
-            color="info"
-          />
           <ToggleButtonGroup
             items={mediaType.items}
             selected={mediaType.selected}
@@ -91,7 +67,10 @@ function Browse() {
       <div className="browse__body">
         <CardGallery>
           {mediaItems.map((item) => (
-            <CardGalleryItem key={item.id}>
+            <CardGalleryItem
+              key={item.id}
+              ref={popularLazyLoader.setLastElement}
+            >
               <Link
                 to={`/details/${item.mediaType}/${item.id}`}
                 className="link"
@@ -102,7 +81,7 @@ function Browse() {
           ))}
         </CardGallery>
       </div>
-      {loading && (
+      {popularLazyLoader.loading && (
         <CircularProgress
           size={60}
           width={7}
@@ -114,4 +93,4 @@ function Browse() {
   );
 }
 
-export default Browse;
+export default PopularBrowse;
