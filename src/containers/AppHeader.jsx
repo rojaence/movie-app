@@ -138,7 +138,7 @@ function AppHeader() {
         persistent
         height={80}
       >
-        <div className="search-drawer container">
+        <div className="search-drawer">
           <Button
             color="error"
             variant="icon"

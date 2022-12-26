@@ -111,8 +111,8 @@ function DiscoverBrowse({ mediaType }) {
   }, [discoverLazyLoader.items]);
 
   return (
-    <section className="browse">
-      <header className="browse__header container">
+    <section className="browse container">
+      <header className="browse__header">
         <h2 className="browse__title text-capitalize">
           {pageTitle[mediaType]}{' '}
           <span style={{ fontWeight: 'normal' }}>/ {selectedGenre.name}</span>

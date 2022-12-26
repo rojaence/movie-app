@@ -33,9 +33,28 @@ function SlideGroup({ items }) {
     }
   };
 
-  const scrollShift = (shift) => {
-    slideList.current.scrollLeft += shift;
-    setScrollX(scrollX + shift);
+  const scrollShift = (direction) => {
+    const listRects = slideList.current.getClientRects()[0];
+    const listChildren = slideList.current.querySelectorAll('li');
+    let reference;
+    let value = 0;
+    listChildren.forEach((child, index) => {
+      const childRects = child.getClientRects()[0];
+      if (direction === 'right') {
+        if (childRects.right <= listRects.width) {
+          reference = listChildren[index + 1];
+          value = reference.getClientRects()[0].x - listRects.x;
+        }
+      } else if (direction === 'left') {
+        if (reference && value) return;
+        if (childRects.left >= listRects.x) {
+          reference = listChildren[index - 1];
+          value -= listRects.width - reference.getClientRects()[0].right;
+        }
+      }
+    });
+    slideList.current.scrollLeft += value;
+    setScrollX(scrollX + value);
     endScrollCheck();
   };
 
@@ -52,7 +71,7 @@ function SlideGroup({ items }) {
         color="primary"
         className="button-left"
         ref={leftButton}
-        onClick={() => scrollShift(-300)}
+        onClick={() => scrollShift('left')}
       />
       <ul
         className="slide-group__list"
@@ -76,7 +95,7 @@ function SlideGroup({ items }) {
         color="primary"
         className="button-right"
         ref={rightButton}
-        onClick={() => scrollShift(300)}
+        onClick={() => scrollShift('right')}
       />
     </div>
   );

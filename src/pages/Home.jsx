@@ -55,7 +55,6 @@ function Home() {
         const filtered = trendingData.results.filter((item) =>
           filters.includes(item.media_type)
         );
-        filtered.sort((a, b) => b.popularity - a.popularity);
         setTrendingItems(mapCardItems(filtered));
 
         const popularData = await getPopular({});
@@ -71,7 +70,7 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <SlideSection
         title="Trending"
         slides={loading ? skeletonCards(6) : trendingItems}
@@ -83,7 +82,7 @@ function Home() {
         slides={loading ? skeletonCards(6) : popularItems}
         link="popular"
       />
-    </>
+    </div>
   );
 }
 

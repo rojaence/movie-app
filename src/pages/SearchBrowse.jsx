@@ -41,8 +41,8 @@ function SearchBrowse() {
   }, []);
 
   return (
-    <section className="search">
-      <header className="search__header container">
+    <section className="search container">
+      <header className="search__header">
         <div className="total-results">
           <span className="total-results__label">Total:</span>
           <Chip
