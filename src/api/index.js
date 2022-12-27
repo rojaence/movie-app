@@ -41,6 +41,16 @@ const getMediaDetails = async ({ mediaType, mediaId } = {}) => {
   return data;
 };
 
+const getSimilarContent = async ({ mediaType, mediaId }) => {
+  const { data } = await api(`${mediaType}/${mediaId}/similar`);
+  return data;
+};
+
+const getRecommendations = async ({ mediaType, mediaId }) => {
+  const { data } = await api(`${mediaType}/${mediaId}/recommendations`);
+  return data;
+};
+
 const getGenres = async ({ mediaType = 'movie' } = {}) => {
   const { data } = await api(`genre/${mediaType}/list`);
   return data.genres;
@@ -73,5 +83,7 @@ export {
   getPopular,
   getMediaDetails,
   searchMedia,
+  getSimilarContent,
+  getRecommendations,
   discoverMedia
 };

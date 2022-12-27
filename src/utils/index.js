@@ -24,4 +24,15 @@ const removeDuplicateId = (data) => {
   });
 };
 
-export { mapCardData, removeDuplicateId };
+const generateSkeletons = (quantity, component) => {
+  const items = [];
+  for (let i = 1; i <= quantity; i += 1) {
+    items.push({
+      id: `skeleton-${i}`,
+      element: component
+    });
+  }
+  return items;
+};
+
+export { mapCardData, removeDuplicateId, generateSkeletons };

@@ -4,7 +4,7 @@ import Icon from '@/components/icons/Icon';
 import Button from '@/components/Button';
 import '@/styles/slideGroup.scss';
 
-function SlideGroup({ items }) {
+function SlideGroup({ items, className }) {
   const slideList = useRef(null);
   const [scrollX, setScrollX] = useState(0);
   const [scrollEnd, setScrollEnd] = useState(false);
@@ -64,7 +64,7 @@ function SlideGroup({ items }) {
   };
 
   return (
-    <div className="slide-group">
+    <div className={`slide-group${className ? ` ${className}` : ''}`}>
       <Button
         startIcon={<Icon name="chevronLeft" size={30} viewBox="0 -4 50 50" />}
         variant="icon"
@@ -102,7 +102,8 @@ function SlideGroup({ items }) {
 }
 
 SlideGroup.defaultProps = {
-  items: []
+  items: [],
+  className: ''
 };
 
 SlideGroup.propTypes = {
@@ -111,7 +112,8 @@ SlideGroup.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       element: PropTypes.element
     })
-  )
+  ),
+  className: PropTypes.string
 };
 
 export default SlideGroup;

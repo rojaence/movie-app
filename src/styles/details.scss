@@ -1,3 +1,131 @@
 .details {
-  background-color: darkslategray;
+  box-sizing: border-box;
+  transition: background-image 0.2s;
+  &__poster {
+    width: 100%;
+    animation: fadeIn 0.2s;
+    &--empty {
+      width: 100% !important;
+    }
+  }
+  &__body {
+    border-radius: 1rem;
+    transform: translateY(-1.5rem);
+    background-color: var(--main-color);
+    padding: 2rem 1.5rem;
+    display: grid;
+    align-items: start;
+    animation: fadeIn 0.2s;
+    grid-template-areas: 'title rate' 'overview overview' 'genres genres';
+    grid-template-columns: 1fr auto;
+    grid-template-rows: minmax(4rem, auto) 1fr minmax(4rem, auto);
+    gap: 1.5rem 0.5rem;
+  }
+  &__overview,
+  &__title {
+    margin: 0;
+  }
+  .rating {
+    font-size: 1.2em;
+  }
+  &__overview {
+    grid-area: overview;
+    line-height: 1.4em;
+  }
+  &__title {
+    grid-area: title;
+    font-size: 1.4em;
+  }
+  @media screen and (min-width: 600px) {
+    display: grid;
+    grid-template-areas: 'poster description' 'recommendations recommendations';
+    grid-template-columns: 250px 1fr;
+    gap: 4rem 1rem;
+    padding: 2rem 1rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    &__poster {
+      grid-area: poster;
+      border-radius: 0.5rem;
+    }
+    &__body {
+      grid-area: description;
+      transform: translateY(0);
+      background-color: rgba(var(--main-color-value), 0.5);
+      backdrop-filter: blur(5px);
+      align-items: start;
+      align-self: center;
+    }
+    .recommendations {
+      grid-area: recommendations;
+    }
+  }
+  @media screen and (min-width: 960px) {
+    grid-template-columns: 300px 1fr;
+    gap: 4rem 2rem;
+  }
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: 350px 1fr;
+    gap: 4rem 3rem;
+  }
+}
+
+.rating {
+  grid-area: rate;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.genres {
+  grid-area: genres;
+  align-self: end;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.recommendations {
+  padding-bottom: 2rem;
+  &__title {
+    margin: 0;
+    font-size: 1.2em;
+    padding: 0 1rem;
+  }
+}
+
+.backdrop-image {
+  animation: backdrop 0.5s;
+  transition: background-image 0.5s;
+  background-repeat: no-repeat;
+  position: absolute;
+  background-size: cover;
+  width: 100%;
+  height: 675px;
+  left: 0;
+  top: 0;
+  z-index: -10;
+  opacity: 0.1;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      var(--main-color) 25%
+    );
+    top: 95%;
+  }
+}
+
+@keyframes backdrop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.1;
+  }
 }

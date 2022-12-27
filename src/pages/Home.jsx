@@ -6,6 +6,7 @@ import CardSkeleton from '@/components/CardSkeleton';
 
 import { Link } from 'react-router-dom';
 import { SnackbarContext } from '@/context/SnackbarContext';
+import { generateSkeletons } from '@/utils';
 
 function Home() {
   const [trendingItems, setTrendingItems] = useState([]);
@@ -35,17 +36,6 @@ function Home() {
     return mapItems;
   };
 
-  const skeletonCards = (quantity) => {
-    const items = [];
-    for (let i = 1; i <= quantity; i += 1) {
-      items.push({
-        id: `skeleton-${i}`,
-        element: <CardSkeleton />
-      });
-    }
-    return items;
-  };
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -73,13 +63,15 @@ function Home() {
     <div className="container">
       <SlideSection
         title="Trending"
-        slides={loading ? skeletonCards(6) : trendingItems}
+        slides={
+          loading ? generateSkeletons(6, <CardSkeleton />) : trendingItems
+        }
         link="trending"
         time="Today"
       />
       <SlideSection
         title="Most Popular"
-        slides={loading ? skeletonCards(6) : popularItems}
+        slides={loading ? generateSkeletons(6, <CardSkeleton />) : popularItems}
         link="popular"
       />
     </div>

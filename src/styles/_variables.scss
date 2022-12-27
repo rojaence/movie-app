@@ -66,6 +66,12 @@
   backdrop-filter: blur(1.25rem);
 }
 
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 2rem;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

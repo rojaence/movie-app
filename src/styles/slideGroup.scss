@@ -16,6 +16,7 @@
     gap: 0.5rem;
     padding: 0 0.5rem 0.8rem;
     scroll-behavior: smooth;
+    box-sizing: border-box;
     @extend .app-scrollbar--alt !optional;
   }
   &:hover {
@@ -33,10 +34,10 @@
     }
   }
   .button-left {
-    left: -5px;
+    left: 0px;
   }
   .button-right {
-    right: -5px;
+    right: 0px;
   }
   /* &::before,
   &::after {
