@@ -48,6 +48,11 @@ const getSimilarContent = async ({ mediaType, mediaId }) => {
 
 const getRecommendations = async ({ mediaType, mediaId }) => {
   const { data } = await api(`${mediaType}/${mediaId}/recommendations`);
+  const fixResults = data.results.map((item) => ({
+    ...item,
+    media_type: mediaType
+  }));
+  data.results = fixResults;
   return data;
 };
 
@@ -66,7 +71,22 @@ const searchMedia = async ({ query, mediaType, page }) => {
   return data;
 };
 
-const discoverMedia = async ({ mediaType, genreIdString, sortBy, page }) => {
+const getPersonCredits = async ({ mediaType, personId }) => {
+  const { data } = await api(`person/${personId}/${mediaType}_credits`);
+  // Solution to missing parameter in popular items from API - media_type
+  const crewFix = data.crew.map((item) => ({ ...item, media_type: mediaType }));
+  const castFix = data.cast.map((item) => ({ ...item, media_type: mediaType }));
+  data.crew = crewFix;
+  data.cast = castFix;
+  return data;
+};
+
+const discoverMedia = async ({
+  mediaType,
+  genreIdString = '',
+  sortBy,
+  page
+}) => {
   const { data } = await api(`discover/${mediaType}`, {
     params: {
       with_genres: genreIdString,
@@ -85,5 +105,6 @@ export {
   searchMedia,
   getSimilarContent,
   getRecommendations,
+  getPersonCredits,
   discoverMedia
 };

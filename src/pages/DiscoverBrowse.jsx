@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Card from '@/components/Card';
 import CardGalleryItem from '@/components/CardGalleryItem';
 import useInfinityScroll from '@/hooks/useInfinityScroll';
@@ -26,13 +26,22 @@ function DiscoverBrowse({ mediaType }) {
   const [mediaItems, setMediaItems] = useState([]);
   const filterDrawer = useModal();
   const [genres, setGenres] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState({ id: 0, name: '' });
+  const { genreName } = useParams();
+  const [selectedGenre, setSelectedGenre] = useState({
+    id: '',
+    name: 'all'
+  });
 
   const snackbar = useContext(SnackbarContext);
 
   const pageTitle = {
     movie: 'Movies',
     tv: 'TV Shows'
+  };
+
+  const mediaTypeValue = {
+    movie: 'movies',
+    tv: 'tvshows'
   };
 
   const orderFilters = {
@@ -75,7 +84,7 @@ function DiscoverBrowse({ mediaType }) {
     lazyLoader: discoverMedia,
     urlParams: {
       mediaType,
-      genreIdString: selectedGenre.id,
+      genreIdString: '',
       sortBy: orderFilters[mediaType][0].value
     },
     observerOptions: { threshold: 0.5 }
@@ -85,25 +94,39 @@ function DiscoverBrowse({ mediaType }) {
     const loadGenres = async () => {
       try {
         const data = await getGenres({ mediaType });
-        setGenres(data);
-        setSelectedGenre(data[0]);
+        data.unshift({ id: '', name: 'all' });
+        const mapData = data.map((item) => {
+          const list = item.name.split(' ');
+          if (list.length > 1) return { ...item, name: list.join('') };
+          return item;
+        });
+        setGenres(mapData);
+        setSelectedGenre(
+          data.find(
+            (genre) => genre.name.toLowerCase() === genreName.toLowerCase()
+          )
+        );
       } catch (error) {
         snackbar.show({ message: error.message, color: 'error' });
       }
     };
     loadGenres();
-  }, [mediaType]);
+    console.log('carga de géneros');
+  }, [mediaType, genreName]);
 
   useEffect(() => {
-    const getMediaByGenre = async () => {
-      discoverLazyLoader.setUrlParams({
-        mediaType,
-        genreIdString: selectedGenre.id,
-        sortBy: toggleSort.selected.value
-      });
-    };
-    getMediaByGenre();
-    filterDrawer.hide();
+    if (selectedGenre) {
+      const getMediaByGenre = async () => {
+        discoverLazyLoader.setUrlParams({
+          mediaType,
+          genreIdString: selectedGenre.id,
+          sortBy: toggleSort.selected.value
+        });
+      };
+      getMediaByGenre();
+      filterDrawer.hide();
+    }
+    console.log('cambio en selectedGenre o toggleSort');
   }, [selectedGenre, toggleSort.selected]);
 
   useEffect(() => {
@@ -115,7 +138,9 @@ function DiscoverBrowse({ mediaType }) {
       <header className="browse__header">
         <h2 className="browse__title text-capitalize">
           {pageTitle[mediaType]}{' '}
-          <span style={{ fontWeight: 'normal' }}>/ {selectedGenre.name}</span>
+          <span style={{ fontWeight: 'normal' }}>
+            / {genreName === 'all' ? 'All genres' : genreName}
+          </span>
         </h2>
         <div className="browse__options">
           <div className="sort">
@@ -175,18 +200,18 @@ function DiscoverBrowse({ mediaType }) {
           {genres.map((item) => (
             <li
               className={
-                item.id === selectedGenre.id
+                item.name.toLowerCase() === genreName.toLowerCase()
                   ? 'list__item list__item--active'
                   : 'list__item'
               }
               key={item.id}
             >
-              <Button
-                text={item.name}
-                onClick={() => setSelectedGenre(item)}
-                variant="plain"
+              <Link
                 className="list__link"
-              />
+                to={`/${mediaTypeValue[mediaType]}/${item.name.toLowerCase()}`}
+              >
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>

@@ -37,7 +37,7 @@
     grid-area: banner;
     position: relative;
     &--null {
-      background-color: #303045;
+      background-color: var(--bg-image-alt);
       display: grid;
       place-items: center;
       justify-content: center;

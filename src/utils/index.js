@@ -35,4 +35,27 @@ const generateSkeletons = (quantity, component) => {
   return items;
 };
 
-export { mapCardData, removeDuplicateId, generateSkeletons };
+const splitDate = (date) => {
+  const months = new Map();
+  months.set(0, 'January');
+  months.set(1, 'February');
+  months.set(2, 'March');
+  months.set(3, 'April');
+  months.set(4, 'May');
+  months.set(5, 'June');
+  months.set(6, 'July');
+  months.set(7, 'August');
+  months.set(8, 'September');
+  months.set(9, 'October');
+  months.set(10, 'November');
+  months.set(11, 'December');
+
+  const base = new Date(date);
+  const day = base.getUTCDate();
+  const month = base.getMonth();
+  const year = base.getFullYear();
+
+  return { day, month: months.get(month), year };
+};
+
+export { mapCardData, removeDuplicateId, generateSkeletons, splitDate };

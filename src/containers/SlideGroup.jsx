@@ -33,6 +33,10 @@ function SlideGroup({ items, className }) {
     }
   };
 
+  useEffect(() => {
+    endScrollCheck();
+  }, [items]);
+
   const scrollShift = (direction) => {
     const listRects = slideList.current.getClientRects()[0];
     const listChildren = slideList.current.querySelectorAll('li');
@@ -40,12 +44,12 @@ function SlideGroup({ items, className }) {
     let value = 0;
     listChildren.forEach((child, index) => {
       const childRects = child.getClientRects()[0];
-      if (direction === 'right') {
+      if (direction === 'right' && !scrollEnd) {
         if (childRects.right <= listRects.width) {
           reference = listChildren[index + 1];
           value = reference.getClientRects()[0].x - listRects.x;
         }
-      } else if (direction === 'left') {
+      } else if (direction === 'left' && scrollX > 0) {
         if (reference && value) return;
         if (childRects.left >= listRects.x) {
           reference = listChildren[index - 1];

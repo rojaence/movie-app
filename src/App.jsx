@@ -11,6 +11,7 @@ import PopularBrowse from '@/pages/PopularBrowse';
 import NotFound from '@/pages/NotFound';
 
 import { SnackbarProvider } from '@/context/SnackbarContext';
+import { getGenres } from '@/api';
 
 function App() {
   return (
@@ -22,19 +23,23 @@ function App() {
             <Route path="details/:mediaType/:mediaId" element={<Details />} />
             <Route path="trending" element={<TrendingBrowse />} />
             <Route path="popular" element={<PopularBrowse />} />
-            <Route path="search/" element={<SearchBrowse />} />
+            <Route path="search" element={<SearchBrowse />} />
             <Route
-              path="movies"
+              path="movies/:genreName"
+              loader={getGenres}
               element={<DiscoverBrowse mediaType="movie" />}
             />
-            <Route path="tvshows" element={<DiscoverBrowse mediaType="tv" />} />
             <Route
-              path="movies/*"
-              element={<Navigate to="/movies" replace />}
+              path="movies"
+              element={<Navigate to="/movies/all" replace />}
             />
             <Route
-              path="tvshows/*"
-              element={<Navigate to="/tvshows" replace />}
+              path="tvshows/:genreName"
+              element={<DiscoverBrowse mediaType="tv" />}
+            />
+            <Route
+              path="tvshows"
+              element={<Navigate to="/tvshows/all" replace />}
             />
             <Route path="*" element={<NotFound />} />
           </Route>

@@ -26,10 +26,10 @@ const useInifinityScroll = ({
     )
   );
 
-  const isTruthy = (obj) => Object.values(obj).every((value) => value);
+  // const isTruthy = (obj) => Object.values(obj).every((value) => value);
 
   const getResultsPage = async (page) => {
-    if (!isTruthy(queryParams) || page - 1 > totalPages) return;
+    if (page - 1 > totalPages) return;
     try {
       setLoading(true);
       const data = await lazyLoader({ ...queryParams, page });

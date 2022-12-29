@@ -54,11 +54,11 @@ function AppHeader() {
     },
     {
       name: 'Movies',
-      path: '/movies'
+      path: 'movies/all'
     },
     {
       name: 'TV Shows',
-      path: '/tvshows'
+      path: 'tvshows/all'
     },
     {
       name: 'Trending',
