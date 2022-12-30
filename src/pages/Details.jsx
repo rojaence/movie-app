@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import {
   getMediaDetails,
   getRecommendations,
-  getPersonCredits
+  getPersonCredits,
+  getMultimediaData
 } from '@/api/index';
 import { generateSkeletons, splitDate, removeDuplicateId } from '@/utils';
 import { SnackbarContext } from '@/context/SnackbarContext';
@@ -13,15 +14,20 @@ import Skeleton from '@/components/Skeleton';
 import CardSkeleton from '@/components/CardSkeleton';
 import SlideGroup from '@/containers/SlideGroup';
 import Card from '@/components/Card';
+import Modal from '@/components/Modal';
+import useModal from '@/hooks/useModal';
+import Chip from '@/components/Chip';
 import '@/styles/details.scss';
 
 function Details() {
   const [loading, setLoading] = useState(false);
   const { mediaType, mediaId } = useParams();
   const [mediaData, setMediaData] = useState(null);
+  const [trailerData, setTrailerData] = useState({});
   const [aditionalContent, setAditionalContent] = useState([]);
   const detailsSection = useRef(null);
   const snackbar = useContext(SnackbarContext);
+  const videoViewer = useModal({ closeKey: true });
 
   const aditionalContentTitle = {
     movie: 'Recommendations',
@@ -32,6 +38,12 @@ function Details() {
   const mediaTypeLink = {
     movie: 'movies',
     tv: 'tvshows'
+  };
+
+  const chipColor = {
+    movie: 'primary',
+    tv: 'warning',
+    person: 'success'
   };
 
   const mapCardItems = (data) => {
@@ -79,12 +91,29 @@ function Details() {
             mediaType: 'tv',
             personId: mediaId
           });
-          aditional = movieCredits.crew.concat(tvCredits.crew);
+          aditional = movieCredits.cast.concat(tvCredits.cast);
         } else {
           const recData = await getRecommendations({
             mediaType,
             mediaId
           });
+          /* const images = await getMultimediaData({
+            mediaType,
+            mediaId,
+            dataType: 'images'
+          }); */
+          const videos = await getMultimediaData({
+            mediaType,
+            mediaId,
+            dataType: 'videos'
+          });
+          /* console.log(images);
+          console.log(videos); */
+          const trailer = videos.results.find(
+            (video) => video.type === 'Trailer'
+          );
+          if (trailer) setTrailerData(trailer);
+          else setTrailerData({});
           aditional = recData.results;
         }
         aditional.sort((a, b) => b.popularity - a.popularity);
@@ -175,12 +204,28 @@ function Details() {
               </span>
             </div>
             <div className="subtitle">
+              <Chip
+                text={mediaType}
+                color={chipColor[mediaType]}
+                className="text-uppercase"
+              />
               <span className="date">
                 {(mediaData.release_date &&
                   formatDate(mediaData.release_date)) ||
                   (mediaData.first_air_date &&
                     formatDate(mediaData.first_air_date))}
               </span>
+              {mediaType !== 'person' && trailerData.key && (
+                <Button
+                  text="Play trailer"
+                  color="success"
+                  variant="text"
+                  className="details__trailer-button"
+                  style={{ color: 'var(--text-color)' }}
+                  startIcon={<Icon name="playArrow" />}
+                  onClick={videoViewer.show}
+                />
+              )}
             </div>
             {mediaData.tagline && (
               <i className="tagline">{mediaData.tagline}</i>
@@ -231,6 +276,39 @@ function Details() {
         />
       ) : (
         <div className="backdrop-image backdrop-image--empty" />
+      )}
+
+      {trailerData.key && mediaType !== 'person' && (
+        <Modal
+          hide={videoViewer.hide}
+          show={videoViewer.show}
+          open={videoViewer.open}
+        >
+          {videoViewer.open && (
+            <article className="video-viewer">
+              <header className="video-viewer__header">
+                <h2 className="video-viewer__title">{`${
+                  mediaData.name || mediaData.title
+                } - Trailer`}</h2>
+                <Button
+                  className="video-viwer__close-btn"
+                  startIcon={<Icon name="close" />}
+                  variant="plain"
+                  onClick={videoViewer.hide}
+                />
+              </header>
+              <iframe
+                className="video-viewer__player"
+                src={`https://www.youtube.com/embed/${trailerData.key}`}
+                title={`${mediaData.name || mediaData.title} - ${
+                  trailerData.name
+                }`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              />
+            </article>
+          )}
+        </Modal>
       )}
     </section>
   );

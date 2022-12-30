@@ -57,5 +57,11 @@
   &--plain {
     color: var(--text-color) !important;
     background-color: transparent !important;
+    &:hover {
+      background-color: rgba(var(--text-color-value), 0.08) !important;
+    }
+    &:active {
+      background-color: rgba(var(--text-color-value), 0.1) !important;
+    }
   }
 }

@@ -2,6 +2,9 @@
   box-sizing: border-box;
   transition: background-image 0.2s;
   animation: fadeIn 0.2s;
+  &__trailer-button {
+    justify-self: end;
+  }
   &__poster {
     width: 100%;
     min-height: 21.875rem;
@@ -41,7 +44,8 @@
   .subtitle {
     grid-area: subtitle;
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 1rem;
   }
   .tagline {
     grid-area: tagline;
@@ -152,6 +156,60 @@
     background-image: var(--primary-gradient);
     opacity: 0.1;
     animation: backdrop2 0.2s;
+  }
+}
+
+.modal-wrapper {
+  z-index: 150;
+}
+
+.video-viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: rgba(var(--main-color-value), 0.5);
+  backdrop-filter: blur(20px);
+  width: 100%;
+  height: 100%;
+  padding: 0.4rem 0.2rem;
+  border-radius: 0.3125rem;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 0.4rem;
+    padding-right: 0.1rem;
+  }
+  &__title {
+    margin: 0;
+    font-size: 1em;
+  }
+  &__player {
+    align-self: center;
+    grid-area: player;
+    border-radius: 0.3125rem;
+    background-color: rgba(var(--text-color-value), 0.05);
+    @media screen and (min-width: 600px) {
+      width: 405px;
+      height: 228px;
+    }
+    @media screen and (min-width: 768px) {
+      width: 572px;
+      height: 322px;
+    }
+    @media screen and (min-width: 960px) {
+      width: 757px;
+      height: 426px;
+      // border: 1px solid green;
+    }
+    @media screen and (min-width: 1264px) {
+      width: 905px;
+      height: 509px;
+    }
+    @media screen and (min-width: 1440px) {
+      width: 1109px;
+      height: 624px;
+    }
   }
 }
 

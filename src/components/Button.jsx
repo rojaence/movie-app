@@ -28,8 +28,8 @@ const Button = forwardRef(
       .trim();
     const variantClasses = ['text', 'outlined', 'icon'];
     const variantClassesAlpha = {
-      text: '0.1',
-      outlined: '0.1',
+      text: '0.2',
+      outlined: '0.2',
       icon: '.3'
     };
     const buttonStyle = {

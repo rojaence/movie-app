@@ -81,6 +81,11 @@ const getPersonCredits = async ({ mediaType, personId }) => {
   return data;
 };
 
+const getMultimediaData = async ({ mediaType, dataType, mediaId }) => {
+  const { data } = await api(`${mediaType}/${mediaId}/${dataType}`);
+  return data;
+};
+
 const discoverMedia = async ({
   mediaType,
   genreIdString = '',
@@ -106,5 +111,6 @@ export {
   getSimilarContent,
   getRecommendations,
   getPersonCredits,
+  getMultimediaData,
   discoverMedia
 };
