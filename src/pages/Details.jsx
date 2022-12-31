@@ -17,6 +17,9 @@ import Card from '@/components/Card';
 import Modal from '@/components/Modal';
 import useModal from '@/hooks/useModal';
 import Chip from '@/components/Chip';
+import Sheet from '@/components/Sheet';
+import ToggleButtonGroup from '@/components/ToggleButtonGroup';
+import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 import '@/styles/details.scss';
 
 function Details() {
@@ -25,9 +28,14 @@ function Details() {
   const [mediaData, setMediaData] = useState(null);
   const [trailerData, setTrailerData] = useState({});
   const [aditionalContent, setAditionalContent] = useState([]);
+  const [videoGallery, setVideoGallery] = useState([]);
+  const [imageGallery, setImageGallery] = useState({
+    backdrops: [],
+    posters: []
+  });
   const detailsSection = useRef(null);
   const snackbar = useContext(SnackbarContext);
-  const videoViewer = useModal({ closeKey: true });
+  const videoViewer = useModal({ closeKey: false, persistent: true });
 
   const aditionalContentTitle = {
     movie: 'Recommendations',
@@ -46,6 +54,22 @@ function Details() {
     person: 'success'
   };
 
+  const galleryOptions = [
+    {
+      text: 'Backdrops',
+      value: 'backdrops'
+    },
+    {
+      text: 'Posters',
+      value: 'posters'
+    }
+  ];
+
+  const galleryToggle = useToggleButtonGroup({
+    initialItems: galleryOptions,
+    initialSelected: galleryOptions[0]
+  });
+
   const mapCardItems = (data) => {
     const mapItems = data.map((item) => ({
       id: item.id,
@@ -62,6 +86,38 @@ function Details() {
             }}
           />
         </Link>
+      )
+    }));
+    return mapItems;
+  };
+
+  const imageSizeConfig = {
+    backdrops: 'w1066_and_h600_bestv2',
+    posters: 'w440_and_h660_face'
+  };
+
+  const mapGalleryItems = ({
+    data = [],
+    dataType = 'backdrop',
+    width = 300,
+    height = 'auto'
+  } = {}) => {
+    const mapItems = data.map((item, index) => ({
+      id: item.id || `${dataType}-${index}`,
+      element: (
+        <Sheet
+          variant="plain"
+          color="error"
+          width={width}
+          height={height}
+          pointer
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/${imageSizeConfig[dataType]}${item.file_path}`}
+            alt="gallery item"
+            className="image-cover"
+          />
+        </Sheet>
       )
     }));
     return mapItems;
@@ -97,23 +153,25 @@ function Details() {
             mediaType,
             mediaId
           });
-          /* const images = await getMultimediaData({
+          const images = await getMultimediaData({
             mediaType,
             mediaId,
             dataType: 'images'
-          }); */
+          });
           const videos = await getMultimediaData({
             mediaType,
             mediaId,
             dataType: 'videos'
           });
-          /* console.log(images);
-          console.log(videos); */
           const trailer = videos.results.find(
             (video) => video.type === 'Trailer'
           );
           if (trailer) setTrailerData(trailer);
           else setTrailerData({});
+          setImageGallery({
+            backdrops: images.backdrops,
+            posters: images.posters.slice(0, 20)
+          });
           aditional = recData.results;
         }
         aditional.sort((a, b) => b.popularity - a.popularity);
@@ -161,12 +219,14 @@ function Details() {
             </div>
           )}
         </div>
-        <section className="recommendations">
-          <h2 className="recommendations__title">Recommendations</h2>
-          <SlideGroup
-            items={generateSkeletons(5, <CardSkeleton />)}
-            className="similar-content"
-          />
+        <section className="content">
+          <section className="media-content">
+            <h2 className="media-content__title">Recommendations</h2>
+            <SlideGroup
+              items={generateSkeletons(5, <CardSkeleton />)}
+              className="media-content__gallery"
+            />
+          </section>
         </section>
       </div>
     );
@@ -255,17 +315,45 @@ function Details() {
           </div>
         )}
       </section>
-      {aditionalContent.length > 0 && (
-        <section className="recommendations">
-          <h2 className="recommendations__title">
-            {aditionalContentTitle[mediaType]}
-          </h2>
-          <SlideGroup
-            items={mapCardItems(aditionalContent)}
-            className="similar-content"
-          />
-        </section>
-      )}
+
+      <section className="content">
+        {aditionalContent.length > 0 && (
+          <section className="media-content">
+            <header className="media-content__header">
+              <h2 className="media-content__title">
+                {aditionalContentTitle[mediaType]}
+              </h2>
+            </header>
+            <SlideGroup
+              items={mapCardItems(aditionalContent)}
+              className="media-content__gallery"
+            />
+          </section>
+        )}
+
+        {mediaType !== 'person' && (
+          <section className="media-content">
+            <header className="media-content__header">
+              <h2 className="media-content__title">Gallery</h2>
+              <ToggleButtonGroup
+                items={galleryToggle.items}
+                selected={galleryToggle.selected}
+                toggle={galleryToggle.toggle}
+                color="info"
+              />
+            </header>
+            <SlideGroup
+              items={mapGalleryItems({
+                data: imageGallery[galleryToggle.selected.value],
+                dataType: galleryToggle.selected.value,
+                width: galleryToggle.selected.value === 'backdrops' ? 754 : 280,
+                height: 424
+              })}
+              className="media-content__gallery"
+            />
+          </section>
+        )}
+      </section>
 
       {mediaData.backdrop_path ? (
         <div
@@ -283,20 +371,21 @@ function Details() {
           hide={videoViewer.hide}
           show={videoViewer.show}
           open={videoViewer.open}
+          persistent
         >
-          {videoViewer.open && (
-            <article className="video-viewer">
-              <header className="video-viewer__header">
-                <h2 className="video-viewer__title">{`${
-                  mediaData.name || mediaData.title
-                } - Trailer`}</h2>
-                <Button
-                  className="video-viwer__close-btn"
-                  startIcon={<Icon name="close" />}
-                  variant="plain"
-                  onClick={videoViewer.hide}
-                />
-              </header>
+          <article className="video-viewer">
+            <header className="video-viewer__header">
+              <h2 className="video-viewer__title">{`${
+                mediaData.name || mediaData.title
+              } - Trailer`}</h2>
+              <Button
+                className="video-viwer__close-btn"
+                startIcon={<Icon name="close" />}
+                variant="plain"
+                onClick={videoViewer.hide}
+              />
+            </header>
+            {videoViewer.open && (
               <iframe
                 className="video-viewer__player"
                 src={`https://www.youtube.com/embed/${trailerData.key}`}
@@ -306,8 +395,8 @@ function Details() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               />
-            </article>
-          )}
+            )}
+          </article>
         </Modal>
       )}
     </section>

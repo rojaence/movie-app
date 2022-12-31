@@ -62,7 +62,7 @@
   }
   @media screen and (min-width: 37.5rem) {
     display: grid;
-    grid-template-areas: 'poster description' 'recommendations recommendations';
+    grid-template-areas: 'poster description' 'content content';
     grid-template-columns: 15.625rem 1fr;
     grid-template-rows: minmax(21.875rem, auto) 1fr;
     gap: 4rem 1rem;
@@ -103,6 +103,10 @@
   }
 }
 
+.content {
+  grid-area: content;
+}
+
 .rating {
   grid-area: rate;
   font-size: 1.2em;
@@ -119,12 +123,18 @@
   flex-wrap: wrap;
 }
 
-.recommendations {
+.media-content {
   padding-bottom: 2rem;
   &__title {
     margin: 0;
     font-size: 1.2em;
     padding: 0 1rem;
+  }
+  &__header {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 
