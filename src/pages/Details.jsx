@@ -6,7 +6,12 @@ import {
   getPersonCredits,
   getMultimediaData
 } from '@/api/index';
-import { generateSkeletons, splitDate, removeDuplicateId } from '@/utils';
+import {
+  generateSkeletons,
+  splitDate,
+  removeDuplicateId,
+  genreNameToUrl
+} from '@/utils';
 import { SnackbarContext } from '@/context/SnackbarContext';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
@@ -29,13 +34,19 @@ function Details() {
   const [trailerData, setTrailerData] = useState({});
   const [aditionalContent, setAditionalContent] = useState([]);
   const [videoGallery, setVideoGallery] = useState([]);
+  const [videoSource, setVideoSource] = useState({
+    key: '',
+    name: '',
+    src: ''
+  });
   const [imageGallery, setImageGallery] = useState({
     backdrops: [],
     posters: []
   });
   const detailsSection = useRef(null);
   const snackbar = useContext(SnackbarContext);
-  const videoViewer = useModal({ closeKey: false, persistent: true });
+  const trailerViewer = useModal({ closeKey: false, persistent: true });
+  const videoGalleryViewer = useModal({ closeKey: false, persistent: true });
 
   const aditionalContentTitle = {
     movie: 'Recommendations',
@@ -62,6 +73,10 @@ function Details() {
     {
       text: 'Posters',
       value: 'posters'
+    },
+    {
+      text: 'Videos',
+      value: 'videos'
     }
   ];
 
@@ -96,6 +111,15 @@ function Details() {
     posters: 'w440_and_h660_face'
   };
 
+  const playVideoSource = (data) => {
+    setVideoSource({
+      name: data.name,
+      key: data.key,
+      src: `https://www.youtube.com/embed/${data.key}`
+    });
+    videoGalleryViewer.show();
+  };
+
   const mapGalleryItems = ({
     data = [],
     dataType = 'backdrop',
@@ -105,17 +129,45 @@ function Details() {
     const mapItems = data.map((item, index) => ({
       id: item.id || `${dataType}-${index}`,
       element: (
+        <a
+          href={`https://image.tmdb.org/t/p/original/${item.file_path}`}
+          target="_blank"
+          rel="noreferrer"
+          className="link"
+        >
+          <Sheet variant="neutral" width={width} height={height} pointer>
+            <img
+              src={`https://image.tmdb.org/t/p/${imageSizeConfig[dataType]}${item.file_path}`}
+              alt="gallery item"
+              className="image-cover"
+            />
+          </Sheet>
+        </a>
+      )
+    }));
+    return mapItems;
+  };
+
+  const mapVideoItems = ({ data = [], width = 754, height = 'auto' }) => {
+    const mapItems = data.map((item, index) => ({
+      id: item.id || `video-${index}`,
+      element: (
         <Sheet
-          variant="plain"
-          color="error"
+          variant="neutral"
           width={width}
           height={height}
           pointer
+          onClick={() => playVideoSource(item)}
         >
           <img
-            src={`https://image.tmdb.org/t/p/${imageSizeConfig[dataType]}${item.file_path}`}
+            src={`https://i.ytimg.com/vi/${item.key}/hqdefault.jpg`}
             alt="gallery item"
             className="image-cover"
+          />
+          <Icon
+            name="playArrow"
+            className="play-icon elevation-1"
+            viewBox="-1 -1 50 50"
           />
         </Sheet>
       )
@@ -168,6 +220,7 @@ function Details() {
           );
           if (trailer) setTrailerData(trailer);
           else setTrailerData({});
+          setVideoGallery(videos.results);
           setImageGallery({
             backdrops: images.backdrops,
             posters: images.posters.slice(0, 20)
@@ -283,7 +336,7 @@ function Details() {
                   className="details__trailer-button"
                   style={{ color: 'var(--text-color)' }}
                   startIcon={<Icon name="playArrow" />}
-                  onClick={videoViewer.show}
+                  onClick={trailerViewer.show}
                 />
               )}
             </div>
@@ -303,10 +356,9 @@ function Details() {
             {mediaData.genres.map((genre) => (
               <Link
                 className="link"
-                to={`/${mediaTypeLink[mediaType]}/${genre.name
-                  .split(' ')
-                  .join('')
-                  .toLowerCase()}`}
+                to={`/${mediaTypeLink[mediaType]}/${genreNameToUrl(
+                  genre.name
+                )}`}
                 key={genre.id}
               >
                 <Button text={genre.name} variant="gradient" />
@@ -342,15 +394,23 @@ function Details() {
                 color="info"
               />
             </header>
-            <SlideGroup
-              items={mapGalleryItems({
-                data: imageGallery[galleryToggle.selected.value],
-                dataType: galleryToggle.selected.value,
-                width: galleryToggle.selected.value === 'backdrops' ? 754 : 280,
-                height: 424
-              })}
-              className="media-content__gallery"
-            />
+            {galleryToggle.selected.value !== 'videos' ? (
+              <SlideGroup
+                items={mapGalleryItems({
+                  data: imageGallery[galleryToggle.selected.value],
+                  dataType: galleryToggle.selected.value,
+                  width:
+                    galleryToggle.selected.value === 'backdrops' ? 754 : 280,
+                  height: 424
+                })}
+                className="media-content__gallery"
+              />
+            ) : (
+              <SlideGroup
+                items={mapVideoItems({ data: videoGallery, height: 424 })}
+                className="media-content__gallery"
+              />
+            )}
           </section>
         )}
       </section>
@@ -368,9 +428,9 @@ function Details() {
 
       {trailerData.key && mediaType !== 'person' && (
         <Modal
-          hide={videoViewer.hide}
-          show={videoViewer.show}
-          open={videoViewer.open}
+          hide={trailerViewer.hide}
+          show={trailerViewer.show}
+          open={trailerViewer.open}
           persistent
         >
           <article className="video-viewer">
@@ -382,16 +442,46 @@ function Details() {
                 className="video-viwer__close-btn"
                 startIcon={<Icon name="close" />}
                 variant="plain"
-                onClick={videoViewer.hide}
+                onClick={trailerViewer.hide}
               />
             </header>
-            {videoViewer.open && (
+            {trailerViewer.open && (
               <iframe
                 className="video-viewer__player"
                 src={`https://www.youtube.com/embed/${trailerData.key}`}
                 title={`${mediaData.name || mediaData.title} - ${
                   trailerData.name
                 }`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              />
+            )}
+          </article>
+        </Modal>
+      )}
+
+      {videoGallery.length > 0 && mediaType !== 'person' && (
+        <Modal
+          hide={videoGalleryViewer.hide}
+          show={videoGalleryViewer.show}
+          open={videoGalleryViewer.open}
+          persistent
+        >
+          <article className="video-viewer">
+            <header className="video-viewer__header">
+              <h2 className="video-viewer__title">{videoSource.name}</h2>
+              <Button
+                className="video-viwer__close-btn"
+                startIcon={<Icon name="close" />}
+                variant="plain"
+                onClick={videoGalleryViewer.hide}
+              />
+            </header>
+            {videoGalleryViewer.open && (
+              <iframe
+                className="video-viewer__player"
+                src={videoSource.src}
+                title={videoSource.name}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               />

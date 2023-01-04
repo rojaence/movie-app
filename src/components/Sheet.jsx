@@ -15,12 +15,14 @@ function Sheet({
 }) {
   const background = {
     plain: 'transparent',
+    neutral: `var(--${color}-color)`,
     outlined: `var(--neutral-color)`,
     solid: `var(--${color}-color)`
   };
 
   const textColor = {
     plain: `var(--${color}-color)`,
+    neutral: `var(--${color}-color)`,
     outlined: `var(--${color}-color)`,
     solid: `var(--text-color)`
   };
@@ -52,7 +54,7 @@ function Sheet({
 Sheet.defaultProps = {
   children: null,
   color: 'neutral',
-  variant: 'plain',
+  variant: 'neutral',
   width: 'auto',
   height: '100%',
   style: {},
@@ -62,7 +64,10 @@ Sheet.defaultProps = {
 };
 
 Sheet.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
   color: PropTypes.string,
   variant: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

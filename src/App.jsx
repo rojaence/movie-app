@@ -34,13 +34,10 @@ function App() {
               element={<Navigate to="/movies/all" replace />}
             />
             <Route
-              path="tvshows/:genreName"
+              path="tv/:genreName"
               element={<DiscoverBrowse mediaType="tv" />}
             />
-            <Route
-              path="tvshows"
-              element={<Navigate to="/tvshows/all" replace />}
-            />
+            <Route path="tv" element={<Navigate to="/tv/all" replace />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

@@ -45,6 +45,7 @@
     grid-area: subtitle;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
   }
   .tagline {
@@ -135,6 +136,26 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+  }
+  &__gallery {
+    .sheet {
+      position: relative;
+      &:hover {
+        .play-icon {
+          filter: brightness(1.2);
+        }
+      }
+    }
+    .play-icon {
+      height: 100px;
+      width: 100px;
+      position: absolute;
+      background-color: rgba(var(--info-color-value), 0.7);
+      transition: filter 0.2s;
+      border-radius: 50%;
+      left: calc(50% - 3.125rem);
+      top: calc(50% - 3.125rem);
+    }
   }
 }
 

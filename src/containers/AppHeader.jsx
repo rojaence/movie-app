@@ -58,14 +58,14 @@ function AppHeader() {
     },
     {
       name: 'TV Shows',
-      path: 'tvshows/all'
+      path: 'tv/all'
     },
     {
       name: 'Trending',
       path: 'trending'
     },
     {
-      name: 'Most popular',
+      name: 'Popular',
       path: 'popular'
     }
   ];

@@ -1,0 +1,47 @@
+.home {
+  padding-top: 1rem !important;
+  .home-banner {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    display: grid;
+    place-items: center;
+    margin: 0 0 2rem;
+    overflow: hidden;
+    border-radius: 0.3rem;
+    @media screen and (min-width: 600px) {
+      height: 250px;
+    }
+    &__backdrop {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-image: var(--primary-gradient);
+      opacity: 0.1;
+      z-index: 40;
+    }
+    .main-title {
+      z-index: 60;
+      padding: 0 1rem;
+      font-size: 1.2em;
+      @media screen and (min-width: 600px) {
+        font-size: 2em;
+      }
+    }
+    &__poster-container {
+      position: absolute;
+      display: flex;
+      transform: rotate(-15deg) scale(0.6);
+      opacity: 0.4;
+      z-index: 50;
+      @media screen and (min-width: 600px) {
+        transform: rotate(-15deg) scale(1.4);
+      }
+      .poster-image {
+        animation: fadeIn 0.2s;
+      }
+    }
+  }
+}

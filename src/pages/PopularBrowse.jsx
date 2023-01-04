@@ -25,6 +25,10 @@ function PopularBrowse() {
     {
       text: 'tv shows',
       value: 'tv'
+    },
+    {
+      text: 'people',
+      value: 'person'
     }
   ];
 
@@ -54,7 +58,7 @@ function PopularBrowse() {
   return (
     <section className="browse container">
       <header className="browse__header">
-        <h2 className="browse__title">Most Popular</h2>
+        <h2 className="browse__title">Popular {mediaType.selected.text}</h2>
         <div className="browse__options">
           <ToggleButtonGroup
             items={mediaType.items}

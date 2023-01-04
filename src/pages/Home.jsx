@@ -7,10 +7,12 @@ import CardSkeleton from '@/components/CardSkeleton';
 import { Link } from 'react-router-dom';
 import { SnackbarContext } from '@/context/SnackbarContext';
 import { generateSkeletons } from '@/utils';
+import '@/styles/home.scss';
 
 function Home() {
   const [trendingItems, setTrendingItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
+  const [bannerImages, setBannerImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const snackbar = useContext(SnackbarContext);
@@ -46,9 +48,15 @@ function Home() {
           filters.includes(item.media_type)
         );
         setTrendingItems(mapCardItems(filtered));
-
         const popularData = await getPopular({});
         setPopularItems(mapCardItems(popularData.results));
+        const trendingBanners = trendingData.results
+          .sort((a, b) => a.popularity - b.popularity)
+          .slice(0, 3);
+        const popularBanners = popularData.results
+          .sort((a, b) => a.popularity - b.popularity)
+          .slice(0, 3);
+        setBannerImages(trendingBanners.concat(popularBanners));
       } catch (error) {
         snackbar.show({ message: error.message, color: 'error' });
       } finally {
@@ -60,7 +68,23 @@ function Home() {
   }, []);
 
   return (
-    <div className="container">
+    <section className="home container">
+      <div className="home-banner">
+        <h2 className="main-title">
+          Welcome, <br /> Millions of movies, TV shows and people to discover.
+        </h2>
+        <div className="home-banner__backdrop" />
+        <div className="home-banner__poster-container">
+          {bannerImages.map((banner) => (
+            <img
+              src={`https://image.tmdb.org/t/p/w300${banner.poster_path}`}
+              alt="poster"
+              key={banner.id}
+              className="poster-image"
+            />
+          ))}
+        </div>
+      </div>
       <SlideSection
         title="Trending"
         slides={
@@ -70,11 +94,11 @@ function Home() {
         time="Today"
       />
       <SlideSection
-        title="Most Popular"
+        title="Popular"
         slides={loading ? generateSkeletons(6, <CardSkeleton />) : popularItems}
         link="popular"
       />
-    </div>
+    </section>
   );
 }
 

@@ -35,6 +35,25 @@ const generateSkeletons = (quantity, component) => {
   return items;
 };
 
+const genreNameToUrl = (name, normal = true) => {
+  let splitName = [];
+  let urlName = '';
+  if (!normal) {
+    if (name.includes('&')) {
+      splitName = name.split('&');
+      urlName = splitName.join(' & ');
+    } else {
+      splitName = name.split('-');
+      urlName = splitName.join(' ');
+    }
+    return urlName.toLowerCase();
+  }
+  splitName = name.split(' ');
+  if (splitName.includes('&')) urlName = splitName.join('');
+  else urlName = splitName.join('-');
+  return urlName.toLowerCase();
+};
+
 const splitDate = (date) => {
   const months = new Map();
   months.set(0, 'January');
@@ -58,4 +77,10 @@ const splitDate = (date) => {
   return { day, month: months.get(month), year };
 };
 
-export { mapCardData, removeDuplicateId, generateSkeletons, splitDate };
+export {
+  mapCardData,
+  removeDuplicateId,
+  generateSkeletons,
+  splitDate,
+  genreNameToUrl
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Card from '@/components/Card';
 import CardGalleryItem from '@/components/CardGalleryItem';
 import useInfinityScroll from '@/hooks/useInfinityScroll';
@@ -17,7 +17,7 @@ import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
 import ScrollToTop from '@/components/ScrollToTop';
 
 import { discoverMedia, getGenres } from '@/api';
-import { mapCardData } from '@/utils';
+import { mapCardData, genreNameToUrl } from '@/utils';
 import { SnackbarContext } from '@/context/SnackbarContext';
 
 import '@/styles/browse.scss';
@@ -41,7 +41,7 @@ function DiscoverBrowse({ mediaType }) {
 
   const mediaTypeValue = {
     movie: 'movies',
-    tv: 'tvshows'
+    tv: 'tv'
   };
 
   const orderFilters = {
@@ -95,23 +95,19 @@ function DiscoverBrowse({ mediaType }) {
       try {
         const data = await getGenres({ mediaType });
         data.unshift({ id: '', name: 'all' });
-        const mapData = data.map((item) => {
-          const list = item.name.split(' ');
-          if (list.length > 1) return { ...item, name: list.join('') };
-          return item;
-        });
-        setGenres(mapData);
-        setSelectedGenre(
-          data.find(
-            (genre) => genre.name.toLowerCase() === genreName.toLowerCase()
-          )
+        setGenres(data);
+        const findedGenre = data.find(
+          (genre) =>
+            genre.name.toLowerCase() === genreNameToUrl(genreName, false)
         );
+        if (findedGenre) {
+          setSelectedGenre(findedGenre);
+        }
       } catch (error) {
         snackbar.show({ message: error.message, color: 'error' });
       }
     };
     loadGenres();
-    console.log('carga de géneros');
   }, [mediaType, genreName]);
 
   useEffect(() => {
@@ -126,7 +122,6 @@ function DiscoverBrowse({ mediaType }) {
       getMediaByGenre();
       filterDrawer.hide();
     }
-    console.log('cambio en selectedGenre o toggleSort');
   }, [selectedGenre, toggleSort.selected]);
 
   useEffect(() => {
@@ -139,7 +134,10 @@ function DiscoverBrowse({ mediaType }) {
         <h2 className="browse__title text-capitalize">
           {pageTitle[mediaType]}{' '}
           <span style={{ fontWeight: 'normal' }}>
-            / {genreName === 'all' ? 'All genres' : genreName}
+            /{' '}
+            {selectedGenre.name === 'all'
+              ? 'All genres'
+              : genreNameToUrl(selectedGenre.name, false)}
           </span>
         </h2>
         <div className="browse__options">
@@ -208,7 +206,9 @@ function DiscoverBrowse({ mediaType }) {
             >
               <Link
                 className="list__link"
-                to={`/${mediaTypeValue[mediaType]}/${item.name.toLowerCase()}`}
+                to={`/${mediaTypeValue[mediaType]}/${genreNameToUrl(
+                  item.name
+                )}`}
               >
                 {item.name}
               </Link>
