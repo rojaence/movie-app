@@ -13,6 +13,7 @@ function Home() {
   const [trendingItems, setTrendingItems] = useState([]);
   const [popularItems, setPopularItems] = useState([]);
   const [bannerImages, setBannerImages] = useState([]);
+  const [bannerBackdrop, setBannerBackdrop] = useState('');
   const [loading, setLoading] = useState(false);
 
   const snackbar = useContext(SnackbarContext);
@@ -57,6 +58,11 @@ function Home() {
           .sort((a, b) => a.popularity - b.popularity)
           .slice(0, 3);
         setBannerImages(trendingBanners.concat(popularBanners));
+        const backdrop = trendingBanners
+          .concat(popularBanners)
+          .map((i) => `url("https://image.tmdb.org/t/p/w300${i.poster_path}")`)
+          .join(',');
+        setBannerBackdrop(backdrop);
       } catch (error) {
         snackbar.show({ message: error.message, color: 'error' });
       } finally {
@@ -67,6 +73,16 @@ function Home() {
     getData();
   }, []);
 
+  const generateBackgroundPosition = (step = 300) => {
+    const positions = [];
+    let nextPosition = 0;
+    bannerImages.forEach(() => {
+      positions.push(`${nextPosition}px`);
+      nextPosition += step;
+    });
+    return positions.join(',');
+  };
+
   return (
     <section className="home container">
       <div className="home-banner">
@@ -75,14 +91,15 @@ function Home() {
         </h2>
         <div className="home-banner__backdrop" />
         <div className="home-banner__poster-container">
-          {bannerImages.map((banner) => (
-            <img
-              src={`https://image.tmdb.org/t/p/w300${banner.poster_path}`}
-              alt="poster"
-              key={banner.id}
+          {bannerBackdrop && (
+            <div
               className="poster-image"
+              style={{
+                backgroundImage: bannerBackdrop,
+                backgroundPosition: generateBackgroundPosition()
+              }}
             />
-          ))}
+          )}
         </div>
       </div>
       <SlideSection
