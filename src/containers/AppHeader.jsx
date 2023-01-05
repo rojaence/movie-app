@@ -83,7 +83,7 @@ function AppHeader() {
         onClick={menuDrawer.show}
       />
       <a className="app-bar-title" href="/">
-        <img src="movieapp.svg" alt="Logo" className="app-logo" />
+        <img src="movieApp.svg" alt="Logo" className="app-logo" />
         <h1 className="app-title">Movie App</h1>
       </a>
       <Button

@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '@/components/icons/Icon';
+import movieDbIcon from '@/assets/themoviedb.svg';
 
 function AppFooter() {
   return (
@@ -12,7 +13,7 @@ function AppFooter() {
           rel="noreferrer"
         >
           <img
-            src="./src/assets/themoviedb.svg"
+            src={movieDbIcon}
             alt="API Attribution"
             className="api-attribution__image"
           />
