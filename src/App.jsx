@@ -11,7 +11,6 @@ import PopularBrowse from '@/pages/PopularBrowse';
 import NotFound from '@/pages/NotFound';
 
 import { SnackbarProvider } from '@/context/SnackbarContext';
-import { getGenres } from '@/api';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
             <Route path="search" element={<SearchBrowse />} />
             <Route
               path="movies/:genreName"
-              loader={getGenres}
               element={<DiscoverBrowse mediaType="movie" />}
             />
             <Route

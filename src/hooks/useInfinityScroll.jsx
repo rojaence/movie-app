@@ -45,10 +45,7 @@ const useInifinityScroll = ({
       const newData = removeDuplicateId(allData);
       setItems(newData);
     } catch (error) {
-      console.log(
-        '🚀 ~ file: useInfinityScroll.jsx:30 ~ getNextPage ~ error',
-        error
-      );
+      console.log(error);
     } finally {
       setLoading(false);
     }
