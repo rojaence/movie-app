@@ -7,6 +7,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
 
+import { useTranslation } from 'react-i18next';
+
 function AppHeader() {
   const menuDrawer = useModal();
   const searchDrawer = useModal({ persistent: true, closeKey: true });
@@ -14,6 +16,8 @@ function AppHeader() {
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     menuDrawer.hide();

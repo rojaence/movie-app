@@ -5,6 +5,8 @@ import { HashRouter } from 'react-router-dom';
 import App from './App';
 import './index.scss';
 
+import './i18n';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HashRouter>
