@@ -1,5 +1,48 @@
 {
   "common": {
-    "search": "Búsqueda"
+    "search": "buscar",
+    "movie": "película",
+    "tv": "tv",
+    "today": "hoy",
+    "thisWeek": "esta semana",
+    "seeMore": "ver más",
+    "sortBy": "ordenar por",
+    "popularity": "popularidad",
+    "rating": "rating",
+    "release": "fecha de lanzamiento",
+    "genres": "géneros",
+    "allGenres": "todos los géneros",
+    "playTrailer": "play tráiler",
+    "recommendations": "recomendaciones",
+    "gallery": "galería",
+    "backdrops": "fondos",
+    "posters": "posters",
+    "videos": "vídeos",
+    "noData": "No hay datos",
+    "noResults": "No hay resultados",
+    "resultsFor": "Resultados para"
+  },
+  "title": {
+    "trending": "Tendencias",
+    "popular": {
+      "common": "Popular",
+      "movies": "Películas populares",
+      "people": "Personas populares",
+      "tv": "Programas de TV populares"
+    },
+    "home": "Inicio",
+    "tv": "Programas de TV",
+    "movies": "Películas"
+  },
+  "copy": {
+    "welcome": "Bienvenidos",
+    "bannerText": "Millones de películas, programas de TV y personas por descubrir",
+    "attribution": {
+      "code": "Codificado por",
+      "apiDisclaimer": "Este producto usa la API de TMDB pero no está respaldado ni certificado por TMDB"
+    },
+    "pageNotFound": "Página no encontrada",
+    "goToHome": "Ir a inicio",
+    "searchHint": "Encontrar películas, programas de TV y personas..."
   }
 }

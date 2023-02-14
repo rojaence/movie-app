@@ -1,5 +1,48 @@
 {
   "common": {
-    "search": "Search"
+    "search": "search",
+    "movie": "movie",
+    "tv": "tv",
+    "today": "today",
+    "thisWeek": "this week",
+    "seeMore": "see more",
+    "sortBy": "sort by",
+    "popularity": "popularity",
+    "rating": "rating",
+    "release": "release date",
+    "genres": "genres",
+    "allGenres": "all genres",
+    "playTrailer": "play trailer",
+    "recommendations": "recomendations",
+    "gallery": "gallery",
+    "backdrops": "backdrops",
+    "posters": "posters",
+    "videos": "videos",
+    "noData": "No data",
+    "noResults": "No results",
+    "resultsFor": "Results for"
+  },
+  "title": {
+    "trending": "Trending",
+    "popular": {
+      "common": "Popular",
+      "movies": "Popular movies",
+      "people": "Popular people",
+      "tv": "Popular tv shows"
+    },
+    "home": "Home",
+    "tv": "TV shows",
+    "movies": "Movies"
+  },
+  "copy": {
+    "welcome": "Welcome",
+    "bannerText": "Millions of movies, TV Shows and people to discover",
+    "attribution": {
+      "code": "Coded by",
+      "apiDisclaimer": "This produt uses the TMDB API but is not endorsed or certified by TMDB"
+    },
+    "pageNotFound": "Page not found",
+    "goToHome": "Go to home",
+    "searchHint": "Find movies, TV Shows and people..."
   }
 }
