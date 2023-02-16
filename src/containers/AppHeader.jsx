@@ -7,6 +7,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useModal from '@/hooks/useModal';
 import Drawer from '@/components/Drawer';
 
+import Select from '@/components/Select';
+import useSelect from '@/hooks/useSelect';
+
 import { useTranslation } from 'react-i18next';
 
 function AppHeader() {
@@ -17,7 +20,30 @@ function AppHeader() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const languageOptions = [
+    {
+      value: 'en',
+      text: 'EN - English',
+      textAlt: 'EN'
+    },
+    {
+      value: 'es',
+      text: 'ES - Español',
+      textAlt: 'ES'
+    }
+  ];
+
+  const languageSelector = useSelect(languageOptions, languageOptions[0]);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  useEffect(() => {
+    changeLanguage(languageSelector.selected.value);
+  }, [languageSelector.selected]);
 
   useEffect(() => {
     menuDrawer.hide();
@@ -90,9 +116,15 @@ function AppHeader() {
         <img src="movieApp.svg" alt="Logo" className="app-logo" />
         <h1 className="app-title">Movie App</h1>
       </a>
+      <Select
+        items={languageSelector.items}
+        selected={languageSelector.selected}
+        onChange={languageSelector.handleOnChange}
+        textAlt
+      />
       <Button
         variant="outlined"
-        text="Search..."
+        text={`${t('common.search')}...`}
         startIcon={
           <Icon name="search" size={25} color="primary" strokeWidth={1} />
         }
