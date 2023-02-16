@@ -50,6 +50,10 @@
     &:hover {
       background-color: var(--light-gray);
     }
+    &--selected,
+    &--selected:hover {
+      background-color: var(--primary-color);
+    }
   }
   &__value {
     grid-area: txt;

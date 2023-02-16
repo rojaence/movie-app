@@ -20,7 +20,7 @@ function AppHeader() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const languageOptions = [
     {
@@ -35,15 +35,20 @@ function AppHeader() {
     }
   ];
 
-  const languageSelector = useSelect(languageOptions, languageOptions[0]);
+  const selectedLanguage = languageOptions.find(
+    (l) => l.value === localStorage.getItem('lng')
+  );
+
+  const languageSelector = useSelect(
+    languageOptions,
+    selectedLanguage || languageOptions[0]
+  );
 
   const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+    if (localStorage.getItem('lng') === lng) return;
+    localStorage.setItem('lng', lng);
+    window.location.reload();
   };
-
-  useEffect(() => {
-    changeLanguage(languageSelector.selected.value);
-  }, [languageSelector.selected]);
 
   useEffect(() => {
     menuDrawer.hide();
@@ -120,6 +125,7 @@ function AppHeader() {
         items={languageSelector.items}
         selected={languageSelector.selected}
         onChange={languageSelector.handleOnChange}
+        onSelected={changeLanguage}
         textAlt
       />
       <Button

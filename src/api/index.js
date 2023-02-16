@@ -6,7 +6,8 @@ const api = axios.create({
     'Content-Type': 'applicatin/json;charset=utf-8'
   },
   params: {
-    api_key: import.meta.env.VITE_API_KEY
+    api_key: import.meta.env.VITE_API_KEY,
+    language: localStorage.getItem('lng') || 'en'
   }
 });
 

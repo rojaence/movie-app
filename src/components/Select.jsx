@@ -8,10 +8,19 @@ import PropTypes from 'prop-types';
 import Icon from '@/components/icons/Icon';
 import '@/styles/select.scss';
 
-function Select({ label, items, customClass, selected, onChange, textAlt }) {
+function Select({
+  label,
+  items,
+  customClass,
+  selected,
+  onChange,
+  onSelected,
+  textAlt
+}) {
   const [toggleList, setToggleList] = useState(false);
   const handleItemClick = (param) => {
     onChange(param);
+    onSelected(param.value);
     setToggleList(false);
   };
   const selectClass = ['select', toggleList && 'select--active', customClass]
@@ -72,7 +81,8 @@ Select.defaultProps = {
   customClass: '',
   selected: { value: '', text: '', textAlt: '' },
   textAlt: false,
-  onChange: () => {}
+  onChange: () => {},
+  onSelected: () => {}
 };
 
 Select.propTypes = {
@@ -90,7 +100,8 @@ Select.propTypes = {
     textAlt: PropTypes.string
   }),
   textAlt: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onSelected: PropTypes.func
 };
 
 export default Select;
