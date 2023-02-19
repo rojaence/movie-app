@@ -10,6 +10,7 @@ import CircularProgress from '@/components/CircularProgress';
 import '@/styles/browse.scss';
 
 import ScrollToTop from '@/components/ScrollToTop';
+import { useTranslation } from 'react-i18next';
 
 import { searchMedia } from '@/api/index';
 import useInifinityScroll from '../hooks/useInfinityScroll';
@@ -17,6 +18,8 @@ import useInifinityScroll from '../hooks/useInfinityScroll';
 function SearchBrowse() {
   const [mediaItems, setMediaItems] = useState([]);
   const [searchParams] = useSearchParams();
+
+  const { t } = useTranslation();
 
   const searchLazyLoader = useInifinityScroll({
     lazyLoader: searchMedia,
@@ -44,7 +47,7 @@ function SearchBrowse() {
     <section className="search container">
       <header className="search__header">
         <div className="total-results">
-          <span className="total-results__label">Total:</span>
+          <span className="total-results__label">{t('common.total')}:</span>
           <Chip
             text={searchLazyLoader.totalResults.toString()}
             variant="text"
@@ -52,7 +55,7 @@ function SearchBrowse() {
           />
         </div>
         <div className="query-param">
-          <span className="query-param__label">Results for:</span>
+          <span className="query-param__label">{t('common.resultsFor')}:</span>
           <Chip
             text={searchParams.get('query')}
             variant="text"
@@ -80,7 +83,7 @@ function SearchBrowse() {
           <div className="no-results">
             <Icon name="searchOff" size={100} color="accent" />
             <Chip
-              text="No results"
+              text={t('common.noResults')}
               color="accent"
               variant="text"
               style={{ width: 200, fontSize: '1.2em' }}

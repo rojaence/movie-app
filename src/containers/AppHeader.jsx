@@ -84,23 +84,23 @@ function AppHeader() {
 
   const mainMenu = [
     {
-      name: 'Home',
+      name: 'home',
       path: '/'
     },
     {
-      name: 'Movies',
+      name: 'movies',
       path: 'movies/all'
     },
     {
-      name: 'TV Shows',
+      name: 'tv',
       path: 'tv/all'
     },
     {
-      name: 'Trending',
+      name: 'trending',
       path: 'trending'
     },
     {
-      name: 'Popular',
+      name: 'popular',
       path: 'popular'
     }
   ];
@@ -126,6 +126,7 @@ function AppHeader() {
         selected={languageSelector.selected}
         onChange={languageSelector.handleOnChange}
         onSelected={changeLanguage}
+        outlined
         textAlt
       />
       <Button
@@ -158,7 +159,7 @@ function AppHeader() {
           {mainMenu.map((item) => (
             <li className="list__item list__item--link" key={item.name}>
               <Link className="list__link" to={item.path}>
-                {item.name}
+                {t(`page.${item.name}`)}
               </Link>
             </li>
           ))}
@@ -189,7 +190,7 @@ function AppHeader() {
             className="close-button"
           />
           <Input
-            placeholder="Find movies, TV shows and people..."
+            placeholder={t('copy.searchHint')}
             id="search-input"
             variant="filled"
             ref={searchInput}

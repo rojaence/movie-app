@@ -2,9 +2,11 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '@/components/icons/Icon';
 import Chip from '@/components/Chip';
+import { useTranslation } from 'react-i18next';
 import '@/styles/card.scss';
 
 const Card = forwardRef(({ data }, ref) => {
+  const { t } = useTranslation();
   const chipColor = {
     movie: 'primary',
     tv: 'warning',
@@ -29,7 +31,7 @@ const Card = forwardRef(({ data }, ref) => {
           />
         )}
         <Chip
-          text={data.mediaType}
+          text={t(`common.${data.mediaType}`)}
           color={chipColor[data.mediaType]}
           style={{ opacity: 0.9, fontWeight: 500, fontSize: '0.8em' }}
           className="card__media-type"

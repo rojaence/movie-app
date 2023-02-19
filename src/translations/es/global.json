@@ -2,6 +2,9 @@
   "common": {
     "search": "buscar",
     "movie": "película",
+    "movies": "películas",
+    "person": "persona",
+    "people": "personas",
     "tv": "tv",
     "today": "hoy",
     "thisWeek": "esta semana",
@@ -12,27 +15,39 @@
     "release": "fecha de lanzamiento",
     "genres": "géneros",
     "allGenres": "todos los géneros",
-    "playTrailer": "play tráiler",
+    "playTrailer": "ver tráiler",
+    "galleryItem": "ítem de galería",
+    "poster": "póster",
     "recommendations": "recomendaciones",
+    "knownBy": "Conocido/a por",
     "gallery": "galería",
     "backdrops": "fondos",
     "posters": "posters",
     "videos": "vídeos",
     "noData": "No hay datos",
     "noResults": "No hay resultados",
-    "resultsFor": "Resultados para"
+    "resultsFor": "Resultados para",
+    "total": "Total",
+    "all": "todos"
+  },
+  "page": {
+    "trending": "tendencias",
+    "popular": "popular",
+    "home": "inicio",
+    "tv": "programas de tv",
+    "movies": "películas"
   },
   "title": {
     "trending": "Tendencias",
     "popular": {
-      "common": "Popular",
-      "movies": "Películas populares",
-      "people": "Personas populares",
-      "tv": "Programas de TV populares"
+      "common": "Populares",
+      "movie": "Películas populares",
+      "tv": "Programas de TV populares",
+      "person": "Gente popular"
     },
-    "home": "Inicio",
+    "allGenres": "Todos los géneros",
     "tv": "Programas de TV",
-    "movies": "Películas"
+    "movie": "Películas"
   },
   "copy": {
     "welcome": "Bienvenidos",

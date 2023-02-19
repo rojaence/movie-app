@@ -15,7 +15,8 @@ function Select({
   selected,
   onChange,
   onSelected,
-  textAlt
+  textAlt,
+  outlined
 }) {
   const [toggleList, setToggleList] = useState(false);
   const handleItemClick = (param) => {
@@ -23,7 +24,12 @@ function Select({
     onSelected(param.value);
     setToggleList(false);
   };
-  const selectClass = ['select', toggleList && 'select--active', customClass]
+  const selectClass = [
+    'select',
+    toggleList && 'select--active',
+    outlined && 'select--outlined',
+    customClass
+  ]
     .filter((c) => c !== '')
     .join(' ')
     .trim();
@@ -81,6 +87,7 @@ Select.defaultProps = {
   customClass: '',
   selected: { value: '', text: '', textAlt: '' },
   textAlt: false,
+  outlined: false,
   onChange: () => {},
   onSelected: () => {}
 };
@@ -99,6 +106,7 @@ Select.propTypes = {
     text: PropTypes.string,
     textAlt: PropTypes.string
   }),
+  outlined: PropTypes.bool,
   textAlt: PropTypes.bool,
   onChange: PropTypes.func,
   onSelected: PropTypes.func

@@ -14,29 +14,33 @@ import CardGalleryItem from '@/components/CardGalleryItem';
 import CircularProgress from '@/components/CircularProgress';
 import ScrollToTop from '@/components/ScrollToTop';
 
+import { useTranslation } from 'react-i18next';
+
 function Browse() {
   const snackbar = useContext(SnackbarContext);
   const [loading, setLoading] = useState(false);
   const [mediaItems, setMediaItems] = useState([]);
 
+  const { t } = useTranslation();
+
   const mediaTypeList = [
     {
-      text: 'movies',
+      text: t('common.movies'),
       value: 'movie'
     },
     {
-      text: 'tv shows',
+      text: t('common.tv'),
       value: 'tv'
     }
   ];
 
   const timeWindowList = [
     {
-      text: 'Today',
+      text: t('common.today'),
       value: 'day'
     },
     {
-      text: 'This Week',
+      text: t('common.thisWeek'),
       value: 'week'
     }
   ];
@@ -72,7 +76,7 @@ function Browse() {
   return (
     <section className="browse container">
       <header className="browse__header">
-        <h2 className="browse__title">Trending</h2>
+        <h2 className="browse__title">{t('title.trending')}</h2>
         <div className="browse__options">
           <ToggleButtonGroup
             items={timeWindow.items}

@@ -20,6 +20,8 @@ import { discoverMedia, getGenres } from '@/api';
 import { mapCardData, genreNameToUrl } from '@/utils';
 import { SnackbarContext } from '@/context/SnackbarContext';
 
+import { useTranslation } from 'react-i18next';
+
 import '@/styles/browse.scss';
 
 function DiscoverBrowse({ mediaType }) {
@@ -27,16 +29,17 @@ function DiscoverBrowse({ mediaType }) {
   const filterDrawer = useModal();
   const [genres, setGenres] = useState([]);
   const { genreName } = useParams();
+  const { t } = useTranslation();
   const [selectedGenre, setSelectedGenre] = useState({
     id: '',
-    name: 'all'
+    name: t('common.all')
   });
 
   const snackbar = useContext(SnackbarContext);
 
   const pageTitle = {
-    movie: 'Movies',
-    tv: 'TV Shows'
+    movie: 'movies',
+    tv: 'tv shows'
   };
 
   const mediaTypeValue = {
@@ -47,29 +50,29 @@ function DiscoverBrowse({ mediaType }) {
   const orderFilters = {
     tv: [
       {
-        text: 'Popularity',
+        text: t('common.popularity'),
         value: 'popularity.desc'
       },
       {
-        text: 'Rating',
+        text: t('common.rating'),
         value: 'vote_average.desc'
       },
       {
-        text: 'Release date',
+        text: t('common.release'),
         value: 'first_air_date.desc'
       }
     ],
     movie: [
       {
-        text: 'Popularity',
+        text: t('common.popularity'),
         value: 'popularity.desc'
       },
       {
-        text: 'Rating',
+        text: t('common.rating'),
         value: 'vote_average.desc'
       },
       {
-        text: 'Release date',
+        text: t('common.release'),
         value: 'release_date.desc'
       }
     ]
@@ -94,8 +97,9 @@ function DiscoverBrowse({ mediaType }) {
     const loadGenres = async () => {
       try {
         const data = await getGenres({ mediaType });
-        data.unshift({ id: '', name: 'all' });
+        data.unshift({ id: 'all', name: t('common.all') });
         setGenres(data);
+        console.log(data);
         const findedGenre = data.find(
           (genre) =>
             genre.name.toLowerCase() === genreNameToUrl(genreName, false)
@@ -132,17 +136,17 @@ function DiscoverBrowse({ mediaType }) {
     <section className="browse container">
       <header className="browse__header">
         <h2 className="browse__title text-capitalize">
-          {pageTitle[mediaType]}{' '}
+          {t(`title.${mediaType}`)}{' '}
           <span style={{ fontWeight: 'normal' }}>
             /{' '}
-            {selectedGenre.name === 'all'
-              ? 'All genres'
+            {selectedGenre.id === 'all'
+              ? t('common.all')
               : genreNameToUrl(selectedGenre.name, false)}
           </span>
         </h2>
         <div className="browse__options">
           <div className="sort">
-            <span className="sort__label">Sort by:</span>
+            <span className="sort__label">{t('common.sortBy')}:</span>
             <ToggleButtonGroup
               items={toggleSort.items}
               selected={toggleSort.selected}
@@ -152,7 +156,7 @@ function DiscoverBrowse({ mediaType }) {
           </div>
           <Button
             onClick={filterDrawer.show}
-            text="Genres"
+            text={t('common.genres')}
             color="info"
             title="Filters"
             className="genres-button"

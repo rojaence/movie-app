@@ -6,7 +6,7 @@
   border-radius: 8px;
   transition: background-color 0.15s;
   &:hover {
-    background-color: rgba(var(--light-gray-value), 0.5);
+    background-color: rgba(var(--light-gray-value), 0.2);
   }
   .icon {
     transition: transform 0.15s;
@@ -59,7 +59,7 @@
     grid-area: txt;
   }
   &--active {
-    background-color: rgba(var(--light-gray-value), 0.5);
+    background-color: rgba(var(--light-gray-value), 0.4) !important;
     .icon {
       transform: rotate(180deg);
     }
@@ -67,5 +67,8 @@
       transform: scaleY(1);
       opacity: 1;
     }
+  }
+  &--outlined {
+    border: 1px solid var(--light-gray);
   }
 }

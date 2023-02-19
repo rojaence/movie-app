@@ -3,6 +3,7 @@ import { getTrending, getPopular } from '@/api/index';
 import Card from '@/components/Card';
 import SlideSection from '@/containers/SlideSection';
 import CardSkeleton from '@/components/CardSkeleton';
+import { useTranslation } from 'react-i18next';
 
 import { Link } from 'react-router-dom';
 import { SnackbarContext } from '@/context/SnackbarContext';
@@ -17,6 +18,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
 
   const snackbar = useContext(SnackbarContext);
+  const { t } = useTranslation();
 
   const mapCardItems = (data) => {
     const mapItems = data.map((item) => ({
@@ -87,7 +89,7 @@ function Home() {
     <section className="home container">
       <div className="home-banner">
         <h2 className="main-title">
-          Welcome, <br /> Millions of movies, TV shows and people to discover.
+          {t('copy.welcome')} <br /> {t('copy.bannerText')}
         </h2>
         <div className="home-banner__backdrop" />
         <div className="home-banner__poster-container">
@@ -103,15 +105,15 @@ function Home() {
         </div>
       </div>
       <SlideSection
-        title="Trending"
+        title={t('title.trending')}
         slides={
           loading ? generateSkeletons(6, <CardSkeleton />) : trendingItems
         }
         link="trending"
-        time="Today"
+        time={t('common.today')}
       />
       <SlideSection
-        title="Popular"
+        title={t('title.popular.common')}
         slides={loading ? generateSkeletons(6, <CardSkeleton />) : popularItems}
         link="popular"
       />

@@ -6,7 +6,10 @@ import Chip from '@/components/Chip';
 import { Link } from 'react-router-dom';
 import '@/styles/slideSection.scss';
 
+import { useTranslation } from 'react-i18next';
+
 function SlideSection({ title, slides, link, time }) {
+  const { t } = useTranslation();
   return (
     <section className="shelf">
       <header className="shelf__header">
@@ -14,7 +17,11 @@ function SlideSection({ title, slides, link, time }) {
         {time && <Chip text={time} color="info" />}
         {link && (
           <Link to={link} className="shelf__more-link link">
-            <Button text="See more" color="primary" variant="rounded" />
+            <Button
+              text={t('common.seeMore')}
+              color="primary"
+              variant="rounded"
+            />
           </Link>
         )}
       </header>

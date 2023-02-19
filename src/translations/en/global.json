@@ -2,6 +2,9 @@
   "common": {
     "search": "search",
     "movie": "movie",
+    "movies": "movies",
+    "person": "person",
+    "people": "people",
     "tv": "tv",
     "today": "today",
     "thisWeek": "this week",
@@ -14,25 +17,37 @@
     "allGenres": "all genres",
     "playTrailer": "play trailer",
     "recommendations": "recomendations",
+    "knownBy": "known by",
     "gallery": "gallery",
+    "poster": "poster",
+    "galleryItem": "galery item",
     "backdrops": "backdrops",
     "posters": "posters",
     "videos": "videos",
     "noData": "No data",
     "noResults": "No results",
-    "resultsFor": "Results for"
+    "resultsFor": "Results for",
+    "total": "Total",
+    "all": "all"
+  },
+  "page": {
+    "trending": "trending",
+    "popular": "popular",
+    "home": "home",
+    "tv": "tv shows",
+    "movies": "movies"
   },
   "title": {
     "trending": "Trending",
     "popular": {
       "common": "Popular",
-      "movies": "Popular movies",
-      "people": "Popular people",
-      "tv": "Popular tv shows"
+      "movie": "Popular movies",
+      "tv": "Propular TV Shows",
+      "person": "Popular people"
     },
-    "home": "Home",
-    "tv": "TV shows",
-    "movies": "Movies"
+    "allGenres": "All genres",
+    "tv": "TV Shows",
+    "movie": "Movies"
   },
   "copy": {
     "welcome": "Welcome",

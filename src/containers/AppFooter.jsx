@@ -1,8 +1,10 @@
 import React from 'react';
 import Icon from '@/components/icons/Icon';
 import movieDbIcon from '@/assets/themoviedb.svg';
+import { useTranslation } from 'react-i18next';
 
 function AppFooter() {
+  const { t } = useTranslation();
   return (
     <footer className="app-footer">
       <div className="api-attribution">
@@ -19,12 +21,15 @@ function AppFooter() {
           />
         </a>
         <p className="api-attribution__copy">
-          This product uses the TMDB API but is not endorsed or certified by
-          TMDB.
+          {t('copy.attribution.apiDisclaimer')}
+          {/* This product uses the TMDB API but is not endorsed or certified by
+          TMDB. */}
         </p>
       </div>
       <div className="author">
-        <p className="author__name">Coded by Ronny Endara</p>
+        <p className="author__name">
+          {t('copy.attribution.code')} Ronny Endara
+        </p>
         <div className="author__social">
           <a
             href="https://www.linkedin.com/in/ronny-endara"

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '@/components/icons/Icon';
 import Button from '@/components/Button';
+import { useTranslation } from 'react-i18next';
 import '@/styles/slideGroup.scss';
 
 function SlideGroup({ items, className }) {
@@ -10,6 +11,8 @@ function SlideGroup({ items, className }) {
   const [scrollEnd, setScrollEnd] = useState(false);
   const leftButton = useRef(null);
   const rightButton = useRef(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     leftButton.current.style.display = scrollX === 0 ? 'none' : 'block';
@@ -89,7 +92,7 @@ function SlideGroup({ items, className }) {
         ))}
         {items.length === 0 && (
           <li style={{ width: '100%', height: '100%', textAlign: 'center' }}>
-            No data
+            {t('common.noData')}
           </li>
         )}
       </ul>

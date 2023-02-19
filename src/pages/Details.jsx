@@ -25,6 +25,7 @@ import Chip from '@/components/Chip';
 import Sheet from '@/components/Sheet';
 import ToggleButtonGroup from '@/components/ToggleButtonGroup';
 import useToggleButtonGroup from '@/hooks/useToggleButtonGroup';
+import { useTranslation } from 'react-i18next';
 import '@/styles/details.scss';
 
 function Details() {
@@ -48,15 +49,17 @@ function Details() {
   const trailerViewer = useModal({ closeKey: false, persistent: true });
   const videoGalleryViewer = useModal({ closeKey: false, persistent: true });
 
+  const { t } = useTranslation();
+
   const aditionalContentTitle = {
-    movie: 'Recommendations',
-    tv: 'Recommendations',
-    person: 'Known by'
+    movie: t('common.recommendations'),
+    tv: t('common.reconmmendations'),
+    person: t('common.knownBy')
   };
 
   const mediaTypeLink = {
     movie: 'movies',
-    tv: 'tvshows'
+    tv: 'tv'
   };
 
   const chipColor = {
@@ -67,15 +70,15 @@ function Details() {
 
   const galleryOptions = [
     {
-      text: 'Backdrops',
+      text: t('common.backdrops'),
       value: 'backdrops'
     },
     {
-      text: 'Posters',
+      text: t('common.posters'),
       value: 'posters'
     },
     {
-      text: 'Videos',
+      text: t('common.videos'),
       value: 'videos'
     }
   ];
@@ -138,7 +141,7 @@ function Details() {
           <Sheet variant="neutral" width={width} height={height} pointer>
             <img
               src={`https://image.tmdb.org/t/p/${imageSizeConfig[dataType]}${item.file_path}`}
-              alt="gallery item"
+              alt={t('common.galleryItem')}
               className="image-cover"
             />
           </Sheet>
@@ -161,7 +164,7 @@ function Details() {
         >
           <img
             src={`https://i.ytimg.com/vi/${item.key}/hqdefault.jpg`}
-            alt="gallery item"
+            alt={t('common.galleryItem')}
             className="image-cover"
           />
           <Icon
@@ -293,7 +296,7 @@ function Details() {
           src={`https://image.tmdb.org/t/p/w400${
             mediaData.poster_path || mediaData.profile_path
           }`}
-          alt="Poster"
+          alt={t('common.poster')}
         />
       ) : (
         <div className="details__poster details__poster--alt elevation-1">
@@ -318,7 +321,7 @@ function Details() {
             </div>
             <div className="subtitle">
               <Chip
-                text={mediaType}
+                text={t(`common.${mediaType}`)}
                 color={chipColor[mediaType]}
                 className="text-uppercase"
               />
@@ -330,7 +333,7 @@ function Details() {
               </span>
               {mediaType !== 'person' && trailerData.key && (
                 <Button
-                  text="Play trailer"
+                  text={t('common.playTrailer')}
                   color="success"
                   variant="text"
                   className="details__trailer-button"
@@ -386,7 +389,7 @@ function Details() {
         {mediaType !== 'person' && (
           <section className="media-content">
             <header className="media-content__header">
-              <h2 className="media-content__title">Gallery</h2>
+              <h2 className="media-content__title">{t('common.gallery')}</h2>
               <ToggleButtonGroup
                 items={galleryToggle.items}
                 selected={galleryToggle.selected}
