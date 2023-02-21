@@ -57,9 +57,23 @@ const getRecommendations = async ({ mediaType, mediaId }) => {
   return data;
 };
 
+// * To fix problem in url ~ #/{tv} or {movie}/{genreName} to standard names
+/*
+  Create an array with original names and translation with the user language
+*/
 const getGenres = async ({ mediaType = 'movie' } = {}) => {
   const { data } = await api(`genre/${mediaType}/list`);
-  return data.genres;
+  const { data: dataEn } = await api(`genre/${mediaType}/list`, {
+    params: {
+      language: 'en'
+    }
+  });
+  const genres = dataEn.genres.reduce((acc, curr) => {
+    const translation = data.genres.find((o) => o.id === curr.id);
+    acc.push({ ...curr, translation: translation.name });
+    return acc;
+  }, []);
+  return genres;
 };
 
 const searchMedia = async ({ query, mediaType, page }) => {

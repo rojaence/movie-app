@@ -59,5 +59,19 @@
     "pageNotFound": "Página no encontrada",
     "goToHome": "Ir a inicio",
     "searchHint": "Encontrar películas, programas de TV y personas..."
+  },
+  "month": {
+    "january": "enero",
+    "february": "febrero",
+    "march": "marzo",
+    "april": "abril",
+    "may": "mayo",
+    "june": "junio",
+    "july": "julio",
+    "august": "agosto",
+    "september": "septiembre",
+    "october": "octubre",
+    "november": "noviembre",
+    "december": "diciembre"
   }
 }

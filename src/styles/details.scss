@@ -244,6 +244,10 @@
   }
 }
 
+.date {
+  text-transform: capitalize;
+}
+
 @keyframes backdrop {
   0% {
     opacity: 0;

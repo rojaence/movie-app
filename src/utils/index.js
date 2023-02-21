@@ -56,18 +56,18 @@ const genreNameToUrl = (name, normal = true) => {
 
 const splitDate = (date) => {
   const months = new Map();
-  months.set(0, 'January');
-  months.set(1, 'February');
-  months.set(2, 'March');
-  months.set(3, 'April');
-  months.set(4, 'May');
-  months.set(5, 'June');
-  months.set(6, 'July');
-  months.set(7, 'August');
-  months.set(8, 'September');
-  months.set(9, 'October');
-  months.set(10, 'November');
-  months.set(11, 'December');
+  months.set(0, 'january');
+  months.set(1, 'february');
+  months.set(2, 'march');
+  months.set(3, 'april');
+  months.set(4, 'may');
+  months.set(5, 'june');
+  months.set(6, 'july');
+  months.set(7, 'august');
+  months.set(8, 'september');
+  months.set(9, 'october');
+  months.set(10, 'november');
+  months.set(11, 'december');
 
   const base = new Date(date);
   const day = base.getUTCDate();

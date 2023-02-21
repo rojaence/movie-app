@@ -12,6 +12,7 @@ import {
   removeDuplicateId,
   genreNameToUrl
 } from '@/utils';
+import { getGenres } from '@/api';
 import { SnackbarContext } from '@/context/SnackbarContext';
 import Button from '@/components/Button';
 import Icon from '@/components/icons/Icon';
@@ -35,6 +36,7 @@ function Details() {
   const [trailerData, setTrailerData] = useState({});
   const [aditionalContent, setAditionalContent] = useState([]);
   const [videoGallery, setVideoGallery] = useState([]);
+  const [genres, setGenres] = useState([]);
   const [videoSource, setVideoSource] = useState({
     key: '',
     name: '',
@@ -53,7 +55,7 @@ function Details() {
 
   const aditionalContentTitle = {
     movie: t('common.recommendations'),
-    tv: t('common.reconmmendations'),
+    tv: t('common.recommendations'),
     person: t('common.knownBy')
   };
 
@@ -180,7 +182,7 @@ function Details() {
 
   const formatDate = (date) => {
     const { day, month, year } = splitDate(date);
-    return `${month} ${day}, ${year}`;
+    return `${t(`month.${month}`)} ${day}, ${year}`;
   };
 
   useEffect(() => {
@@ -192,6 +194,9 @@ function Details() {
           mediaType,
           mediaId
         });
+        let genresData;
+        if (mediaType !== 'person') genresData = await getGenres({ mediaType });
+        setGenres(genresData);
         let aditional = [];
         if (mediaType === 'person') {
           const movieCredits = await getPersonCredits({
@@ -360,11 +365,14 @@ function Details() {
               <Link
                 className="link"
                 to={`/${mediaTypeLink[mediaType]}/${genreNameToUrl(
-                  genre.name
+                  genres.find((g) => g.id === genre.id).name
                 )}`}
                 key={genre.id}
               >
-                <Button text={genre.name} variant="gradient" />
+                <Button
+                  text={genres.find((g) => g.id === genre.id).translation}
+                  variant="gradient"
+                />
               </Link>
             ))}
           </div>

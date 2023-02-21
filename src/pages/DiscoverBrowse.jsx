@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Card from '@/components/Card';
 import CardGalleryItem from '@/components/CardGalleryItem';
 import useInfinityScroll from '@/hooks/useInfinityScroll';
@@ -32,15 +32,16 @@ function DiscoverBrowse({ mediaType }) {
   const { t } = useTranslation();
   const [selectedGenre, setSelectedGenre] = useState({
     id: '',
-    name: t('common.all')
+    name: 'all',
+    translation: t('common.all')
   });
 
   const snackbar = useContext(SnackbarContext);
 
-  const pageTitle = {
+  /* const pageTitle = {
     movie: 'movies',
     tv: 'tv shows'
-  };
+  }; */
 
   const mediaTypeValue = {
     movie: 'movies',
@@ -97,9 +98,8 @@ function DiscoverBrowse({ mediaType }) {
     const loadGenres = async () => {
       try {
         const data = await getGenres({ mediaType });
-        data.unshift({ id: 'all', name: t('common.all') });
+        data.unshift({ id: 'all', name: 'all', translation: t('common.all') });
         setGenres(data);
-        console.log(data);
         const findedGenre = data.find(
           (genre) =>
             genre.name.toLowerCase() === genreNameToUrl(genreName, false)
@@ -141,7 +141,7 @@ function DiscoverBrowse({ mediaType }) {
             /{' '}
             {selectedGenre.id === 'all'
               ? t('common.all')
-              : genreNameToUrl(selectedGenre.name, false)}
+              : genreNameToUrl(selectedGenre.translation, false)}
           </span>
         </h2>
         <div className="browse__options">
@@ -214,7 +214,7 @@ function DiscoverBrowse({ mediaType }) {
                   item.name
                 )}`}
               >
-                {item.name}
+                {item.translation}
               </Link>
             </li>
           ))}

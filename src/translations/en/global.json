@@ -59,5 +59,19 @@
     "pageNotFound": "Page not found",
     "goToHome": "Go to home",
     "searchHint": "Find movies, TV Shows and people..."
+  },
+  "month": {
+    "january": "january",
+    "february": "february",
+    "march": "march",
+    "april": "april",
+    "may": "may",
+    "june": "june",
+    "july": "july",
+    "august": "august",
+    "september": "september",
+    "october": "october",
+    "november": "november",
+    "december": "december"
   }
 }
