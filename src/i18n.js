@@ -13,9 +13,19 @@ const resources = {
   }
 };
 
+const storeLanguage = localStorage.getItem('lng');
+if (!storeLanguage) {
+  const systemLanguage = navigator.language;
+  if (/^en\b/.test(systemLanguage)) {
+    localStorage.setItem('lng', 'en');
+  } else if (/^es\b/.test(systemLanguage)) {
+    localStorage.setItem('lng', 'es');
+  }
+}
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: localStorage.getItem('lng') || 'en',
+  lng: localStorage.getItem('lng'),
   interpolation: {
     escapeValue: false
   }
