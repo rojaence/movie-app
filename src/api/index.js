@@ -1,5 +1,15 @@
 import axios from 'axios';
 
+const storeLanguage = localStorage.getItem('lng');
+if (!storeLanguage) {
+  const systemLanguage = navigator.language;
+  if (/^en\b/.test(systemLanguage)) {
+    localStorage.setItem('lng', 'en');
+  } else if (/^es\b/.test(systemLanguage)) {
+    localStorage.setItem('lng', 'es');
+  }
+}
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
@@ -7,7 +17,7 @@ const api = axios.create({
   },
   params: {
     api_key: import.meta.env.VITE_API_KEY,
-    language: localStorage.getItem('lng') || 'en'
+    language: localStorage.getItem('lng')
   }
 });
 
